@@ -35,6 +35,18 @@ services:
     networks:
       - storage
 
+  api:
+    image: api:latest
+    platform: linux/amd64
+    restart: always
+    depends_on:
+      - postgres
+    environment: []
+    ports:
+      - 8889:5000
+    networks:
+      - storage
+
   migration:
     image: migration:latest
     platform: linux/amd64
