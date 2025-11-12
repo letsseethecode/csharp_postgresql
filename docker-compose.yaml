@@ -1,0 +1,61 @@
+services:
+
+  postgres:
+    image: postgres:latest
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      PG_DATA: /var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres:/var/lib/postgresql
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    networks:
+      - storage
+  
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    platform: linux/amd64
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "dev@example.org"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
+    ports:
+      - 8888:80
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+      - ./pgadmin-init:/docker-entrypoint-initpgadmin.d
+    # command: [ "/bin/bash", "/docker-entrypoint-initpgadmin.d/init_pgadmin.sh" ]
+    networks:
+      - storage
+
+  migration:
+    image: migration:latest
+    platform: linux/amd64
+    profiles:
+      - donotstart
+    restart: never
+    depends_on:
+      - postgres
+    environment:
+      VERSION: 1.0.0
+      CONNECTION_STRING: "server=postgres;port=5432;database=postgres;username=postgres;password=postgres"
+      CREATE_DATABASE: "${CREATE_DATABASE:-true}"
+      DROP_DATABASE: "${DROP_DATABASE:-false}"
+      TRANSACTION: "${TRANSACTION:-false}"
+    volumes:
+      - ./grate-ouput:/output
+    networks:
+      - storage
+
+networks:
+  api:
+    driver: bridge
+  storage:
+    driver: bridge
