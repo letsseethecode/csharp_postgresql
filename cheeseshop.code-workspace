@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "csharp_postgresql",
+			"path": "."
+		},
+		{
+			"name": "events",
+			"path": "../events"
+		}
+	],
+	"settings": {}
+}
