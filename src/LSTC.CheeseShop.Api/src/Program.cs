@@ -1,5 +1,6 @@
 
 using LSTC.CheeseShop.Api.Services;
+using LSTC.CheeseShop.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 

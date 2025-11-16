@@ -9,5 +9,7 @@
 			"path": "../events"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"makefile.configureOnOpen": false
+	}
 }

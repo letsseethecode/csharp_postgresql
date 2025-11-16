@@ -1,4 +1,4 @@
-namespace LSTC.CheeseShop.Api;
+namespace LSTC.CheeseShop.Api.Controllers;
 
 public class WeatherForecast
 {
