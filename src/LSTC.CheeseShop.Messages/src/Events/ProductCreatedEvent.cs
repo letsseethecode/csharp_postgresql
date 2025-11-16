@@ -1,6 +1,6 @@
 using LSTC.Shared.CQS;
 
-namespace LSTC.CheeseShop.CQS.Events;
+namespace LSTC.CheeseShop.Messages.Events;
 
 public class ProductCreatedEvent : IEvent
 {

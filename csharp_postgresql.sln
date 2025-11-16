@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSTC.CheeseShop.Domain", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSTC.CheeseShop.Api", "src\LSTC.CheeseShop.Api\LSTC.CheeseShop.Api.csproj", "{990B38CC-54E2-4364-BC3F-D11489506ADB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSTC.CheeseShop.CQS", "src\LSTC.CheeseShop.CQS\LSTC.CheeseShop.CQS.csproj", "{C71AA922-D65C-4279-A578-B200D66FF4CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSTC.CheeseShop.Messages", "src\LSTC.CheeseShop.Messages\LSTC.CheeseShop.Messages.csproj", "{C71AA922-D65C-4279-A578-B200D66FF4CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSTC.Shared", "src\LSTC.Shared\LSTC.Shared.csproj", "{DE2875AD-6369-48E8-BECF-72FCC2FBAE65}"
 EndProject

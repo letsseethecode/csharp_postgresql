@@ -1,31 +1,30 @@
-using LSTC.CheeseShop.Domain;
-
-namespace LSTC.CheeseShop.Domain;
-
-/// <summary>
-/// There is a rule that only Domain entities can create Domain entities.
-///
-/// Therefore entities with no clear parent will be instantiated by this class.
-/// </summary>
-public class Root
+namespace LSTC.CheeseShop.Domain
 {
-    public Product CreateProduct(Guid id, string name, string description)
+    /// <summary>
+    /// There is a rule that only Domain entities can create Domain entities.
+    ///
+    /// Therefore entities with no clear parent will be instantiated by this class.
+    /// </summary>
+    public class Root
     {
-        return new Product
+        public Product CreateProduct(Guid id, string name, string description)
         {
-            Id = id,
-            Name = name,
-            Description = description
-        };
-    }
+            return new Product
+            {
+                Id = id,
+                Name = name,
+                Description = description
+            };
+        }
 
-    public Location CreateLocation(Guid id, string name, string description)
-    {
-        return new Location
+        public Location CreateLocation(Guid id, string name, string description)
         {
-            Id = id,
-            Name = name,
-            Description = description,
-        };
+            return new Location
+            {
+                Id = id,
+                Name = name,
+                Description = description,
+            };
+        }
     }
 }

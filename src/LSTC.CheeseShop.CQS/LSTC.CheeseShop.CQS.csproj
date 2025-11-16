@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LSTC.Shared\LSTC.Shared.csproj" />
+    <ProjectReference Include="..\LSTC.CheeseShop.Domain\LSTC.CheeseShop.Domain.csproj" />
+    <ProjectReference Include="..\LSTC.CheeseShop.Messages\LSTC.CheeseShop.Messages.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

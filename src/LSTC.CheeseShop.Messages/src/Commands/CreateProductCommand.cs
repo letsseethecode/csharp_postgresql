@@ -1,6 +1,6 @@
 using LSTC.Shared.CQS;
 
-namespace LSTC.CheeseShop.CQS.Commands;
+namespace LSTC.CheeseShop.Messages.Commands;
 
 public class CreateProductCommand : ICommand
 {
