@@ -7,7 +7,7 @@ public interface IRepository<TEntity, TId>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<TEntity> LoadOne(TId id);
+    Task<TEntity?> LoadOne(TId id);
 
     /// <summary>
     /// Load all instances of an object in the database

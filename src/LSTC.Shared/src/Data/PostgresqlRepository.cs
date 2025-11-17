@@ -2,7 +2,7 @@ namespace LSTC.Shared.Data;
 
 public class PostgresqlRepository<TEntity> : IRepository<TEntity, Guid>
 {
-    public async Task<TEntity> LoadOne(Guid id)
+    public async Task<TEntity?> LoadOne(Guid id)
     {
         await Task.Run(() => { });
         throw new NotImplementedException("Not Implemented");
