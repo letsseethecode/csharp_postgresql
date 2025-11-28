@@ -36,14 +36,19 @@ clean: 																			## Remove the temporary files
 build: build--api build--migration ## Build the grate container
 	$(call highlight,"build","finished")
 
+# Tests must be marked with [Trait("Category", "Unit")] in xUnit or @Unit in Specflow
 test--unit:																		## Run the unit tests
 	$(call highlight,"test","unit tests complete")
+	dotnet test \
+		--logger "console;verbosity=detailed"
+		--filter "Category=Unit"
 
+# Tests that are not marked as Unit tests (above) will be treated as integration tests.
 test--integration:																## Run the integration tests
 	$(call highlight,"test","integration tests complete")
-
-test--bdd:																		## Run the BDD tests
-	$(call highlight,"test","bdd tests complete")
+	dotnet test \
+		--logger "console;verbosity=detailed" \
+		--filter "Category!=Unit"
 
 test: test--unit test--bdd test--integration									## Run all the tests
 	$(call highlight,"test","complete")
