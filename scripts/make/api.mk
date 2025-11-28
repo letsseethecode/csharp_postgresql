@@ -15,6 +15,6 @@ dist/docker/api: ${API_SOURCE_FILES}
 
 build--api: dist/docker/api														## Build the API
 
-up--api:																		## Run the API
+up--api: build--api																## Run the API
 	$(call highlight,"api","running...")
 	docker compose up api

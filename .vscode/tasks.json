@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/LSTC.CheeseShop.Api/LSTC.CheeseShop.Api.csproj"
+                "${workspaceFolder}/src/LSTC.CheeseShop.Api/LSTC.CheeseShop.Api.csproj"
             ],
             "problemMatcher": [
                 "$msCompile"
@@ -24,7 +24,7 @@
             "group": "test",
             "args": [
                 "test",
-                "${workspaceFolder}/LSTC.CheeseShop.Domain.Tests/LSTC.CheeseShop.Domain.Tests.csproj"
+                "${workspaceFolder}/src/LSTC.CheeseShop.Domain.Tests/LSTC.CheeseShop.Domain.Tests.csproj"
             ],
             "presentation": {
                 "reveal": "silent"

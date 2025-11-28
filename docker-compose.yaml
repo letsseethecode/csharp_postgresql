@@ -36,14 +36,14 @@ services:
       - storage
 
   api:
-    image: api:latest
+    image: cheeseshop-api:latest
     platform: linux/amd64
     restart: always
     depends_on:
       - postgres
     environment: []
     ports:
-      - 8889:5000
+      - 5000:5000
     networks:
       - storage
 

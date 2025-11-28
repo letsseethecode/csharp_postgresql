@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/api/bin/Debug/net9.0/api.dll",
+            "program": "${workspaceFolder}/src/LSTC.CheeseShop.Api/bin/Debug/net9.0/LSTC.CheeseShop.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

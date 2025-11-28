@@ -1,6 +1,5 @@
 
 using LSTC.CheeseShop.Api.Services;
-using LSTC.CheeseShop.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +19,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    });
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

@@ -61,9 +61,9 @@ wipe:																			## Remove the build and docker files (DANGER!)
 		exit 1; \
 	fi
 	$(call highlight,"wipe","remove all docker content...")
-	docker kill $(docker ps -q) 				2> /dev/null || true
-	docker rm $(docker container ls -aq)		2> /dev/null || true
-	docker rmi $(docker imagages -q) --force	2> /dev/null || true
+	docker kill $$(docker ps -q) 			2> /dev/null || true
+	docker rm $$(docker container ls -aq)	2> /dev/null || true
+	docker rmi $$(docker images -q) --force	2> /dev/null || true
 	$(call highlight,"wipe","removing local directories...")
 	rm -rf dist/
 	rm -rf volumes/  							2> /dev/null || true

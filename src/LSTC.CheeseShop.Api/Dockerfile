@@ -17,7 +17,7 @@ RUN dotnet publish \
     -c release \
     --self-contained \
     -p:SelfContained=true \
-    /p:Version="$VERSION" \
+    -p:Version="$VERSION" \
     -o /publish
 
 # ------------------------------------------------------------------------------
@@ -34,8 +34,9 @@ RUN apk add icu-libs
 FROM installer AS runtime
 WORKDIR /app
 
-COPY --chmod=0755 --from=build /publish .
 RUN mkdir /output
+RUN sh -c ls .
+COPY --chmod=0755 --from=build /publish .
 # Add globalization support to the OS so .Net can use cultures
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
