@@ -12,8 +12,8 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./postgres:/var/lib/postgresql
-      - ./postgres-init:/docker-entrypoint-initdb.d
+      - ./volumes/postgres:/var/lib/postgresql
+      - ./volumes/postgres-init:/docker-entrypoint-initdb.d
     networks:
       - storage
   
@@ -29,8 +29,8 @@ services:
     ports:
       - 8888:80
     volumes:
-      - ./pgadmin:/var/lib/pgadmin
-      - ./pgadmin-init:/docker-entrypoint-initpgadmin.d
+      - ./volumes/pgadmin:/var/lib/pgadmin
+      - ./volumes/pgadmin-init:/docker-entrypoint-initpgadmin.d
     # command: [ "/bin/bash", "/docker-entrypoint-initpgadmin.d/init_pgadmin.sh" ]
     networks:
       - storage

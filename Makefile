@@ -29,7 +29,7 @@ down: 																			## Stop all the containers
 	$(call highlight,"services","stopping...")
 	docker compose down -v
 
-clean: 																			## Remove the temporary files
+clean: 																			## Remove the temporary build files
 	$(call highlight,"project","cleaning...")
 	rm -rf dist/
 
@@ -52,3 +52,19 @@ test--integration:																## Run the integration tests
 
 test: test--unit test--bdd test--integration									## Run all the tests
 	$(call highlight,"test","complete")
+
+wipe:																			## Remove the build and docker files (DANGER!)
+	$(call confirm,"wipe","This will remove all local content and all docker images")
+	read answer; \
+	if [[ "$${answer}" != "y" ]]; then \
+		$(call err,"User aborted."); \
+		exit 1; \
+	fi
+	$(call highlight,"wipe","remove all docker content...")
+	docker kill $(docker ps -q) 				2> /dev/null || true
+	docker rm $(docker container ls -aq)		2> /dev/null || true
+	docker rmi $(docker imagages -q) --force	2> /dev/null || true
+	$(call highlight,"wipe","removing local directories...")
+	rm -rf dist/
+	rm -rf volumes/  							2> /dev/null || true
+	$(call highlight,"wipe","complete")

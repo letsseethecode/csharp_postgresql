@@ -30,3 +30,5 @@ RESET	= \033[0m
 # ------------------------------------------------------------------------------
 
 highlight = echo -e "${CYAN_BG} $(1) ${CYAN}${RESET} $(2)"
+confirm = echo -ne "${PURPLE_BG} $(1) ${PURPLE}${RESET} $(2) - confirm? (y/N) "
+err = echo -e "${RED_BG} ERROR! ${RED}${RESET} $(1)"
