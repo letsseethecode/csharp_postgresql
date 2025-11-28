@@ -60,8 +60,8 @@ dist/grate: dist/grate.zip
 	unzip -o $< -d $(dir $@)
 	touch $@
 
-GRATE_SQL_FILES := $(find ./migration/sql -name "*.sql" -type f)
-dist/docker/migration: src/migration/Dockerfile ./src/migration/entrypoint.sh dist/grate ${GRATE_SQL_FILES}
+GRATE_SOURCE_FILES := $(find ./migration/sql -name Dockerfile -o -name "*.sh" -o -name "*.sql" -type f)
+dist/docker/migration: dist/grate ${GRATE_SOURCE_FILES}
 	$(call highlight,"migration","building...")
 	docker build 					\
 		--platform "linux/amd64" 	\
@@ -85,13 +85,18 @@ migration--interactive: build--migration										## Run the grate container in 
 # API
 # ------------------------------------------------------------------------------
 
-build--api:																		## Build the API
+API_SOURCE_FILES := $(find src/LSTC.CheeseShop.Api -name Dockerfile -o -name "*.cs" -o -name "*.csproj")
+dist/docker/api: ${API_SOURCE_FILES}
 	$(call highlight,"api","building...")
 	docker build 								\
 		--platform "linux/amd64"				\
 		-t cheeseshop-api:latest 				\
 		-f src/LSTC.CheeseShop.Api/Dockerfile	\
 		.
+	mkdir -p $(dir $@)
+	touch $@
+
+build--api: dist/docker/api														## Build the API
 
 up--api:																		## Run the API
 	$(call highlight,"api","running...")
@@ -102,3 +107,4 @@ up--api:																		## Run the API
 # ------------------------------------------------------------------------------
 
 build: build--api build--migration ## Build the grate container
+	$(call highlight,"build","finished")
