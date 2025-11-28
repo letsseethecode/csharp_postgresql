@@ -5,8 +5,8 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 RUN mkdir /db && mkdir /output
 
-COPY --chmod=0755 /bin/grate .
-COPY --chmod=0755 ./entrypoint.sh .
-COPY ./grate-sql /db
+COPY --chmod=0755 ./dist/grate .
+COPY --chmod=0755 ./src/migration/entrypoint.sh .
+COPY ./src/migration/sql /db
 
 CMD [ "/bin/bash", "./entrypoint.sh" ]
