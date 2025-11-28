@@ -50,7 +50,7 @@ test--integration:																## Run the integration tests
 		--logger "console;verbosity=detailed" \
 		--filter "Category!=Unit"
 
-test: test--unit test--bdd test--integration									## Run all the tests
+test: test--unit test--integration									## Run all the tests
 	$(call highlight,"test","complete")
 
 wipe:																			## Remove the build and docker files (DANGER!)
