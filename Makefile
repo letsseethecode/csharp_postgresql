@@ -15,6 +15,7 @@ help: ## Show this help message
 	@echo
 	@echo -e "where [target] can be:"
 	@grep -hE '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  ${CYAN}%-30s${RESET} %s\n", $$1, $$2}'
+	@echo
 
 up: ## Start the postgres and pgadmin containers
 	$(call highlight,"services","starting...")
