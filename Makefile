@@ -1,4 +1,5 @@
 .PHONY: up down pgadmin build grate grate--interactive
+GOAL: help
 
 ifndef VERBOSE
 .SILENT:
