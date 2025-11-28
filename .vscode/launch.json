@@ -15,7 +15,6 @@
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
                 "uriFormat": "%s"
             },
-            "saferLaunch": "true",
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },

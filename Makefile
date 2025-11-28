@@ -65,6 +65,6 @@ wipe:																			## Remove the build and docker files (DANGER!)
 	docker rm $$(docker container ls -aq)	2> /dev/null || true
 	docker rmi $$(docker images -q) --force	2> /dev/null || true
 	$(call highlight,"wipe","removing local directories...")
-	rm -rf dist/
-	rm -rf volumes/  							2> /dev/null || true
+	rm -rf dist/							2> /dev/null || true
+	rm -rf volumes/  						2> /dev/null || true
 	$(call highlight,"wipe","complete")
