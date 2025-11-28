@@ -14,7 +14,11 @@ help: ## Show this help message
 	@echo -e "Usage: make [target]"
 	@echo
 	@echo -e "where [target] can be:"
-	@grep -hE '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  ${CYAN}%-30s${RESET} %s\n", $$1, $$2}'
+	@grep -hE '^[a-zA-Z_-]+:.*## .*$$' ${MAKEFILE_LIST} \
+		| sort \
+		| awk 'BEGIN {FS = ":.*?## "}; {printf "${CYAN}%s${RESET}~%s\n", $$1, $$2}' \
+		| column -t -s~ \
+		| sed 's/^/  /'
 	@echo
 
 up: ## Start the postgres and pgadmin containers
