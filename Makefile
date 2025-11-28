@@ -10,7 +10,7 @@ VERSION ?= latest
 
 include scripts/make/*.mk
 
-help: ## Show this help message
+help: 																			## Show this help message
 	@echo -e "Usage: make [target]"
 	@echo
 	@echo -e "where [target] can be:"
@@ -21,15 +21,15 @@ help: ## Show this help message
 		| sed 's/^/  /'
 	@echo
 
-up: ## Start the postgres and pgadmin containers
+up: 																			## Start the postgres and pgadmin containers
 	$(call highlight,"services","starting...")
 	docker compose up pgadmin postgres -d
 
-down: ## Stop all the containers
+down: 																			## Stop all the containers
 	$(call highlight,"services","stopping...")
 	docker compose down -v
 
-clean: # Remove the temporary files
+clean: 																			## Remove the temporary files
 	$(call highlight,"project","cleaning...")
 	rm -rf dist/
 
