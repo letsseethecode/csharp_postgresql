@@ -7,11 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-9.0
 builder.Services.AddHealthChecks()
-                .AddCheck<CustomHealthCheck>("liveness", tags: new[] { "live" })
-                .AddCheck<CustomHealthCheck>("logs", tags: new[] { "ready" })
-                .AddCheck<CustomHealthCheck>("filesystem", tags: new[] { "ready" })
-                .AddCheck<CustomHealthCheck>("database", tags: new[] { "ready" })
-                .AddCheck<CustomHealthCheck>("eventbus", tags: new[] { "ready" });
+                .AddCheck<CustomHealthCheck>("liveness", tags: ["live"])
+                .AddCheck<CustomHealthCheck>("logs", tags: ["ready"])
+                .AddCheck<CustomHealthCheck>("filesystem", tags: ["ready"])
+                .AddCheck<CustomHealthCheck>("database", tags: ["ready"])
+                .AddCheck<CustomHealthCheck>("eventbus", tags: ["ready"]);
 ;
 
 // Add services to the container.
