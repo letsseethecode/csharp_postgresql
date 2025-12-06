@@ -369,74 +369,74 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "name",
                             "value"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "A",
                             "true"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "B",
                             "false"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "C",
                             "1"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "D",
                             "-1"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "E",
                             "0.0"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "F",
                             "\"string\""});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "G",
                             "{ \"foo\": \"bar\" }"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "H",
                             "[]"});
 #line 62
-    await testRunner.GivenAsync("the values:", ((string)(null)), table1, "Given ");
+    await testRunner.GivenAsync("the values:", ((string)(null)), table2, "Given ");
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "name",
                             "op",
                             "value"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "A",
                             "=",
                             "true"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "B",
                             "=",
                             "false"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "C",
                             "=",
                             "1"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "D",
                             "=",
                             "-1"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "E",
                             "=",
                             "0.0"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "F",
                             "=",
                             "\"string\""});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "G",
                             "=",
                             "{ \"foo\": \"bar\" }"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "H",
                             "=",
                             "[]"});
 #line 72
-    await testRunner.ThenAsync("the values are:", ((string)(null)), table2, "Then ");
+    await testRunner.ThenAsync("the values are:", ((string)(null)), table3, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

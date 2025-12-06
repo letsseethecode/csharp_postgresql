@@ -22,8 +22,6 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
         {
             _outputHelper = outputHelper;
             _scenario = scenario;
-            _scenario.Add(RESULTS, new Dictionary<string, string>());
-            _scenario.Add(VALUES, new Dictionary<string, string>());
         }
 
         // ---------------------------------------------------------------------
@@ -86,6 +84,32 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
             var expected = JToken.Parse(value).ToObject<object>();
             var actual = JToken.Parse(v).ToObject<object>();
             Assert.Equal(expected, actual);
+        }
+
+        [Then(@"the result\.(\w+) (<|<=|=|!=|>=|>) (\w+)")]
+        public void Then_the_result_path_is(string path, string op, string value)
+        {
+            Then_the_result_name_path_is(DEFAULT, path, op, value);
+        }
+
+        [Then(@"the result (\w+)\.(\w+) (<|<=|=|!=|>=|>) (.*)")]
+        public void Then_the_result_name_path_is(string name, string path, string op, string value)
+        {
+            var subject = _scenario.GetResult<object>();
+            var expected = JToken.Parse(value).ToObject<object>();
+            var actual = Evaluate(subject, path.Split("."), 0);
+            Assert.Equal(expected, actual);
+        }
+
+        private object Evaluate(object subject, string[] path, int index)
+        {
+            if (index < path.Length)
+            {
+                var p = subject.GetType().GetProperty(path[index]);
+                var v = p.GetValue(subject);
+                return Evaluate(v, path, index + 1);
+            }
+            return subject;
         }
 
         // ---------------------------------------------------------------------

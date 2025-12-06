@@ -13,6 +13,12 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
             _scenario = scenario;
         }
 
+        [StepArgumentTransformation(@"(GET|POST|PUT|DELETE|HEAD|OPTIONS|PATCH|CONNECT|TRACE)")]
+        public HttpMethod HttpMethod(string method)
+        {
+            return new HttpMethod(method);
+        }
+
         [StepArgumentTransformation(@"in (\d+) days")]
         public DateTime InXDaysTransform(int days)
         {

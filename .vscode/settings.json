@@ -7,6 +7,7 @@
         "**/obj/": true,
         "**/bin/": true,
     },
+    "csharp.testFramework": "xunit",
     "cucumber.glue": [ // sets the location of the step definition classes
         "**/*.cs",
     ],

@@ -42,7 +42,7 @@ services:
     depends_on:
       - postgres
     environment:
-      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_ENVIRONMENT: Development
     expose:
       - 5000
     ports:
