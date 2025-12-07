@@ -40,7 +40,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
             });
         }
 
-        private object? Parse(string value)
+        private object? Parse(string value, bool resultAsJToken = false)
         {
             JToken j;
             try
@@ -55,7 +55,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
                 result = Substitute(result);
                 j = JToken.Parse(result);
             }
-            return j.Type == JTokenType.Object ? j : j.ToObject<object>();
+            return resultAsJToken ? j : j.ToObject<object>();
         }
 
         private object? Evaluate(object subject, string[] path, int index)
@@ -105,7 +105,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
 
         private void Query(string data, string query)
         {
-            var d = Parse(data) as JToken;
+            var d = Parse(data, true) as JToken;
             var q = new JsonataQuery(query);
             var result = q.Eval(d).ToObject<bool>();
             Assert.True(result);
