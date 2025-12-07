@@ -51,9 +51,16 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
             {
                 var path = value.Split(".", StringSplitOptions.RemoveEmptyEntries);
                 var subject = _scenario.GetProperty<object>(Collection.Value, path[0]);
-                var result = Evaluate(subject, path, 1)?.ToString() ?? "null";
-                result = Substitute(result);
-                j = JToken.Parse(result);
+                var result = Evaluate(subject, path, 1);
+                if (result is string v)
+                {
+                    v = Substitute(v);
+                    j = JToken.Parse(v);
+                }
+                else
+                {
+                    j = JToken.FromObject(result);
+                }
             }
             return resultAsJToken ? j : j.ToObject<object>();
         }

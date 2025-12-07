@@ -12,4 +12,4 @@ Feature: HTTP testing
                 "data": "value"
             }
             """
-        Then the result.IsSuccessStatusCode = true
+        Then compare result.IsSuccessStatusCode = true

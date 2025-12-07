@@ -170,7 +170,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
         await testRunner.WhenAsync("I invoke POST /echo", "{\n    \"data\": \"value\"\n}", ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 15
-        await testRunner.ThenAsync("the result.IsSuccessStatusCode = true", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+        await testRunner.ThenAsync("compare result.IsSuccessStatusCode = true", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
