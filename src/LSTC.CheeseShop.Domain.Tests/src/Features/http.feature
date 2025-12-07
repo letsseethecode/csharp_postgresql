@@ -6,10 +6,17 @@ Feature: HTTP testing
             | name | value |
             | foo  | 123   |
         # And an error is expected
-        When I invoke POST /echo
+        When I invoke POST /echo?x=1
             """
             {
                 "data": "value"
             }
             """
-        Then compare result.IsSuccessStatusCode = true
+        Then compare response.IsSuccessStatusCode = true
+        And query result matches
+            """
+            method = "POST"
+            and path = "/echo"
+            and $lookup(headers, "foo") = ["123"]
+            and query[key="x"].value
+            """

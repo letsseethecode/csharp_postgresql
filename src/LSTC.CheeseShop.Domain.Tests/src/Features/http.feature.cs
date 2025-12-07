@@ -167,10 +167,14 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
         await testRunner.AndAsync("the http headers", ((string)(null)), table1, "And ");
 #line hidden
 #line 9
-        await testRunner.WhenAsync("I invoke POST /echo", "{\n    \"data\": \"value\"\n}", ((global::Reqnroll.Table)(null)), "When ");
+        await testRunner.WhenAsync("I invoke POST /echo?x=1", "{\n    \"data\": \"value\"\n}", ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 15
-        await testRunner.ThenAsync("compare result.IsSuccessStatusCode = true", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+        await testRunner.ThenAsync("compare response.IsSuccessStatusCode = true", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 16
+        await testRunner.AndAsync("query result matches", "method = \"POST\"\nand path = \"/echo\"\nand $lookup(headers, \"foo\") = [\"123\"]\nand quer" +
+                        "y[key=\"x\"].value", ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

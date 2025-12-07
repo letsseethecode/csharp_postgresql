@@ -115,7 +115,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
             var d = Parse(data, true) as JToken;
             var q = new JsonataQuery(query);
             var result = q.Eval(d).ToObject<bool>();
-            Assert.True(result);
+            Assert.True(result, string.Format("'{1}' did not match {0}", d.ToFlatString(), q));
         }
 
         // ---------------------------------------------------------------------
@@ -171,6 +171,12 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
 
         [Then(@"query (.+) matches '(.+)'")]
         public void Query_matches(string data, string query)
+        {
+            Query(data, query);
+        }
+
+        [Then(@"query (.+) matches")]
+        public void Query_matches_body(string data, string query)
         {
             Query(data, query);
         }

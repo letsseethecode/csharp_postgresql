@@ -112,7 +112,8 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
                 await ErrorSteps.Trap(_scenario, async () =>
                 {
                     var response = await client.SendAsync(request);
-                    _scenario.SetValue("result", response);
+                    _scenario.SetValue("response", response);
+                    _scenario.SetValue("result", await response.Content.ReadAsStringAsync());
                 });
             }
         }

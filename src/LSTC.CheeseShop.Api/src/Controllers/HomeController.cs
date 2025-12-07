@@ -37,6 +37,7 @@ public class HomeController : ControllerBase
                 path = Request.Path.Value,
                 host = Request.Host.Value,
                 headers = Request.Headers,
+                query = Request.Query,
                 body = body,
             };
             return Ok(result);
