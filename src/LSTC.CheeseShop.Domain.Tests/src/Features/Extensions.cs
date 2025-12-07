@@ -5,68 +5,54 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
 
     public static class ScenarioExtensions
     {
-        const string DEFAULT_NAME = "(default)";
-        const string VALUES = "values";
-        const string RESULTS = "results";
+        public const string DEFAULT_NAME = "(default)";
 
-        public static Dictionary<string, object> GetDict(this ScenarioContext context, string name)
+        public static Dictionary<string, object> GetDict(this ScenarioContext context, Collection collection)
         {
-            if (!context.TryGetValue<Dictionary<string, object>>(name, out var d))
-                context[name] = d = new();
+            if (!context.TryGetValue<Dictionary<string, object>>(collection.ToString(), out var d))
+                context[collection.ToString()] = d = new();
             return d;
         }
 
-        public static void SetProperty(this ScenarioContext context, string dict, string name, object? value)
+        public static void SetProperty(this ScenarioContext context, Collection collection, object? value)
         {
-            var d = GetDict(context, dict);
+            SetProperty(context, collection, DEFAULT_NAME, value);
+        }
+
+        public static void SetProperty(this ScenarioContext context, Collection collection, string name, object? value)
+        {
+            var d = GetDict(context, collection);
             if (value == null)
                 d.Remove(name);
             else
                 d[name] = value;
         }
 
-        public static T GetProperty<T>(this ScenarioContext context, string dict, string name)
+        public static T GetProperty<T>(this ScenarioContext context, Collection collection)
         {
-            return (T)GetDict(context, dict)[name];
+            return GetProperty<T>(context, collection, DEFAULT_NAME);
         }
 
-        public static T GetProperty<T>(this ScenarioContext context, string dict, string name, T defaultValue)
+        public static T GetProperty<T>(this ScenarioContext context, Collection collection, string name)
         {
-            return GetDict(context, dict).TryGetValue(name, out var v) ? (T)v : defaultValue;
+            return (T)GetDict(context, collection)[name];
+        }
+
+        public static T GetProperty<T>(this ScenarioContext context, Collection collection, string name, T defaultValue)
+        {
+            return GetDict(context, collection).TryGetValue(name, out var v) ? (T)v : defaultValue;
         }
 
         // -------------------------------------------------------------------------
 
         public static void SetValue(this ScenarioContext context, string name, object value)
         {
-            SetProperty(context, VALUES, name, value);
+            SetProperty(context, Collection.Value, name, value);
         }
 
         public static T GetValue<T>(this ScenarioContext context, string name)
         {
-            return GetProperty<T>(context, VALUES, name);
-        }
-
-        // -------------------------------------------------------------------------
-
-        public static void SetResult(this ScenarioContext context, object value)
-        {
-            SetProperty(context, RESULTS, DEFAULT_NAME, value);
-        }
-
-        public static void SetResult(this ScenarioContext context, string name, object value)
-        {
-            SetProperty(context, RESULTS, name, value);
-        }
-
-        public static T GetResult<T>(this ScenarioContext context)
-        {
-            return GetProperty<T>(context, RESULTS, DEFAULT_NAME);
-        }
-
-        public static T GetResult<T>(this ScenarioContext context, string name)
-        {
-            return GetProperty<T>(context, RESULTS, name);
+            return GetProperty<T>(context, Collection.Value, name);
         }
     }
 }

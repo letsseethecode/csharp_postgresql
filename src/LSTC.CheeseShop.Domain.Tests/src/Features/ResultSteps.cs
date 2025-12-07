@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Jsonata.Net.Native;
 using Jsonata.Net.Native.Json;
 using Reqnroll;
@@ -25,183 +26,146 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
         }
 
         // ---------------------------------------------------------------------
-        // Utilities
+        // Utility
         // ---------------------------------------------------------------------
 
-        private JToken GetValue(string name)
+        private string Substitute(string value)
         {
-            var d = (Dictionary<string, string>)_scenario[VALUES];
-            if (!d.TryGetValue(name, out var v))
-                throw new ArgumentException("Unknown value: {0}", name);
-            return JToken.Parse(v);
+            return Regex.Replace(value, @"\$\{(\w+)\}", x =>
+            {
+                var v = _scenario.GetProperty<string>(Collection.Value, x.Value[2..^1]);
+                v = Parse(v)?.ToString() ?? "null";
+                v = Substitute(v);
+                return v;
+            });
         }
 
-        private JToken Parse(string s)
+        private object? Parse(string value)
         {
-            return Regex.IsMatch(s, "^[A-Z]+$")
-                ? GetValue(s)
-                : JToken.Parse(s);
+            JToken j;
+            try
+            {
+                j = JToken.Parse(value);
+            }
+            catch
+            {
+                var path = value.Split(".", StringSplitOptions.RemoveEmptyEntries);
+                var subject = _scenario.GetProperty<object>(Collection.Value, path[0]);
+                var result = Evaluate(subject, path, 1)?.ToString() ?? "null";
+                result = Substitute(result);
+                j = JToken.Parse(result);
+            }
+            return j.Type == JTokenType.Object ? j : j.ToObject<object>();
         }
 
-        // ---------------------------------------------------------------------
-        // Results
-        // ---------------------------------------------------------------------
-
-        [Then("json (.+) query '(.+)' is (.+)")]
-        public void Jsonata_query(JToken data, string query, object expected)
-        {
-            var qry = new JsonataQuery(query);
-            var actual = qry.Eval(data).ToObject<object>();
-            expected = Convert.ChangeType(expected, actual.GetType());
-            Assert.Equal(actual, expected);
-        }
-
-        [Given(@"the result (\w+)")]
-        public void Given_the_result_is(string value)
-        {
-            Given_the_result_name_is(DEFAULT, value);
-        }
-
-        [Given(@"the result (\w+) is (.*)")]
-        public void Given_the_result_name_is(string name, string value)
-        {
-            var d = (Dictionary<string, string>)_scenario[RESULTS];
-            d[name] = value;
-        }
-
-        [Then(@"the result (<|<=|=|!=|>=|>) (\w+)")]
-        public void Then_the_result_is(string op, string value)
-        {
-            Then_the_result_name_is(DEFAULT, op, value);
-        }
-
-        [Then(@"the result (\w+) (<|<=|=|!=|>=|>) (.*)")]
-        public void Then_the_result_name_is(string name, string op, string value)
-        {
-            var d = (Dictionary<string, string>)_scenario[RESULTS];
-            if (!d.TryGetValue(name, out var v))
-                throw new ArgumentException(string.Format("Unknown value {0}", name));
-            var expected = JToken.Parse(value).ToObject<object>();
-            var actual = JToken.Parse(v).ToObject<object>();
-            Assert.Equal(expected, actual);
-        }
-
-        [Then(@"the result\.(\w+) (<|<=|=|!=|>=|>) (\w+)")]
-        public void Then_the_result_path_is(string path, string op, string value)
-        {
-            Then_the_result_name_path_is(DEFAULT, path, op, value);
-        }
-
-        [Then(@"the result (\w+)\.(\w+) (<|<=|=|!=|>=|>) (.*)")]
-        public void Then_the_result_name_path_is(string name, string path, string op, string value)
-        {
-            var subject = _scenario.GetResult<object>();
-            var expected = JToken.Parse(value).ToObject<object>();
-            var actual = Evaluate(subject, path.Split("."), 0);
-            Assert.Equal(expected, actual);
-        }
-
-        private object Evaluate(object subject, string[] path, int index)
+        private object? Evaluate(object subject, string[] path, int index)
         {
             if (index < path.Length)
-            {
-                var p = subject.GetType().GetProperty(path[index]);
-                var v = p.GetValue(subject);
-                return Evaluate(v, path, index + 1);
-            }
+                return subject?.GetType().GetProperty(path[index])?.GetValue(subject);
             return subject;
         }
 
-        // ---------------------------------------------------------------------
-        // Values
-        // ---------------------------------------------------------------------
-
-        [Given(@"the value (\w+) is (.*)")]
-        public void Given_the_value_is(string name, string value)
+        private void Compare(string lhs, TestOperator op, string rhs)
         {
-            var d = (Dictionary<string, string>)_scenario[VALUES];
-            d[name] = value;
+            var actual = Parse(lhs);
+            var expected = Parse(rhs);
+            if (op == TestOperator.Eq)
+            {
+                Assert.Equal(actual, expected);
+            }
+            else if (op == TestOperator.Neq)
+            {
+                Assert.NotEqual(actual, expected);
+            }
+            else
+            {
+                var res = ((IComparable)actual).CompareTo(expected);
+                switch (op)
+                {
+                    case TestOperator.Lt:
+                        Assert.True(res < 0);
+                        break;
+                    case TestOperator.Lte:
+                        Assert.True(res <= 0);
+                        break;
+                    case TestOperator.Gte:
+                        Assert.True(res >= 0);
+                        break;
+                    case TestOperator.Gt:
+                        Assert.True(res > 0);
+                        break;
+                }
+            }
         }
 
-        [Given(@"the values:")]
-        public void Given_the_values(Table table)
+        private void Set(string name, string value)
+        {
+            _scenario.SetProperty(Collection.Value, name, value);
+        }
+
+        private void Query(string data, string query)
+        {
+            var d = Parse(data) as JToken;
+            var q = new JsonataQuery(query);
+            var result = q.Eval(d).ToObject<bool>();
+            Assert.True(result);
+        }
+
+        // ---------------------------------------------------------------------
+        // Setting values
+        // ---------------------------------------------------------------------
+
+        [Given(@"the value (\w+) is (.+)")]
+        public void Given_the_value(string name, string value)
+        {
+            Set(name, value);
+        }
+
+        [Given(@"the value (\w+) is")]
+        public void Given_the_value_body(string name, string body)
+        {
+            Set(name, body);
+        }
+
+        [Given(@"the values")]
+        public void Given_the_values(DataTable table)
         {
             foreach (var row in table.Rows)
-            {
-                Given_the_value_is(row[0], row[1]);
-            }
+                Set(row[0], row[1]);
         }
 
-        [Then(@"the value (\w+) (<|<=|=|!=|>=|>) (.*)")]
-        public void Then_the_value_name_is(string name, string op, string value)
+        // ---------------------------------------------------------------------
+        // Comparing values
+        // ---------------------------------------------------------------------
+
+        [Then(@"compare (.+) (<|<=|=|!=|>=|>)")]
+        public void Then_compare_body(string lhs, TestOperator op, string body)
         {
-            var d = (Dictionary<string, string>)_scenario[VALUES];
-            if (!d.TryGetValue(name, out var v))
-                throw new ArgumentException(string.Format("Unknown value {0}", name));
-            var expected = JToken.Parse(value).ToObject<object>();
-            var actual = JToken.Parse(v).ToObject<object>();
-            Assert.Equal(expected, actual);
+            Compare(lhs, op, body);
         }
 
-        [Then(@"the values are:")]
-        public void Then_the_values_are(Table table)
+        [Then(@"compare (.+) (<|<=|=|!=|>=|>) (.+)")]
+        public void Then_compare(string lhs, TestOperator op, string rhs)
         {
+            Compare(lhs, op, rhs);
+        }
+
+        [Then(@"the values")]
+        public void Then_the_values(DataTable table)
+        {
+            var t = new Transforms(_scenario);
             foreach (var row in table.Rows)
-            {
-                Then_the_value_name_is(row[0], row[1], row[2]);
-            }
+                Then_compare(row[0], t.Operator(row[1]), row[2]);
         }
 
-        [Then(@"jsonata (.+) matches (.+)")]
-        public void Then_value_a_matches_b(string a, string b)
-        {
-            var lhs = Parse(a);
-            var rhs = Parse(b);
-            var query = new JsonataQuery(rhs.ToObject<string>());
-            var result = query.Eval(lhs);
-            Assert.True(result.ToObject<bool>());
-        }
+        // ---------------------------------------------------------------------
+        // Queries
+        // ---------------------------------------------------------------------
 
-        [Then(@"value (.+) query (.+) is (.+)")]
-        public void Then_value_a_matches_b(string data, string query, string result)
+        [Then(@"query (.+) matches '(.+)'")]
+        public void Query_matches(string data, string query)
         {
-            var d = Parse(data);
-            var q = Parse(query).ToObject<string>();
-            var exp = Parse(result).ToObject<object>();
-            var qry = new JsonataQuery(q);
-            var res = qry.Eval(d).ToObject<object>();
-            Assert.Equal(res, exp);
-        }
-
-        [Then(@"value (.+) (<|<=|=|!=|>=|>) (.+)")]
-        public void Then_value_a_op_b(string a, string op, string b)
-        {
-            var lhs = Parse(a);
-            var rhs = Parse(b);
-            var res = ((IComparable)lhs.ToObject<object>()).CompareTo(rhs.ToObject<object>());
-            switch (op)
-            {
-                case "<":
-                    Assert.True(res < 0);
-                    break;
-                case "<=":
-                    Assert.True(res <= 0);
-                    break;
-                case "=":
-                    Assert.True(res == 0);
-                    break;
-                case "!=":
-                    Assert.True(res != 0);
-                    break;
-                case ">=":
-                    Assert.True(res >= 0);
-                    break;
-                case ">":
-                    Assert.True(res > 0);
-                    break;
-                default:
-                    throw new ArgumentException("Unknown operation {0}", op);
-            }
+            Query(data, query);
         }
     }
 

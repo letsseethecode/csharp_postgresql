@@ -108,7 +108,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("src/Features/results.feature.ndjson", 40);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("src/Features/results.feature.ndjson", 14);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -136,114 +136,25 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="JSONata query")]
+        [global::Xunit.SkippableTheoryAttribute(DisplayName="Setting values")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
-        [global::Xunit.TraitAttribute("Description", "JSONata query")]
-        public async global::System.Threading.Tasks.Task JSONataQuery()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("JSONata query", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 7
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 8
-    await testRunner.ThenAsync("json { \"items\": true } query \'items\' is true", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.SkippableFactAttribute(DisplayName="JSONata query with substitution")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
-        [global::Xunit.TraitAttribute("Description", "JSONata query with substitution")]
-        public async global::System.Threading.Tasks.Task JSONataQueryWithSubstitution()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("JSONata query with substitution", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 10
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 11
-    await testRunner.GivenAsync("the value X is 123", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 12
-    await testRunner.ThenAsync("json { \"items\": $$X } query \'items\' is 123", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.SkippableFactAttribute(DisplayName="JSONata query with full substitution")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
-        [global::Xunit.TraitAttribute("Description", "JSONata query with full substitution")]
-        public async global::System.Threading.Tasks.Task JSONataQueryWithFullSubstitution()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("JSONata query with full substitution", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 14
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 15
-    await testRunner.GivenAsync("the value X is { \"items\": 123 }", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 16
-    await testRunner.ThenAsync("json $$X query \'items\' is 123", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.SkippableTheoryAttribute(DisplayName="Setting default results")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
-        [global::Xunit.TraitAttribute("Description", "Setting default results")]
-        [global::Xunit.InlineDataAttribute("true", "3", new string[0])]
-        [global::Xunit.InlineDataAttribute("false", "4", new string[0])]
-        [global::Xunit.InlineDataAttribute("1", "5", new string[0])]
-        [global::Xunit.InlineDataAttribute("-1", "6", new string[0])]
-        [global::Xunit.InlineDataAttribute("0.0", "7", new string[0])]
-        [global::Xunit.InlineDataAttribute("\"string\"", "8", new string[0])]
-        [global::Xunit.InlineDataAttribute("{ \"foo\": \"bar\" }", "9", new string[0])]
-        [global::Xunit.InlineDataAttribute("[]", "10", new string[0])]
-        public async global::System.Threading.Tasks.Task SettingDefaultResults(string value, string @__pickleIndex, string[] exampleTags)
+        [global::Xunit.TraitAttribute("Description", "Setting values")]
+        [global::Xunit.InlineDataAttribute("A", "true", "0", new string[0])]
+        [global::Xunit.InlineDataAttribute("B", "false", "1", new string[0])]
+        [global::Xunit.InlineDataAttribute("C", "1", "2", new string[0])]
+        [global::Xunit.InlineDataAttribute("D", "-1", "3", new string[0])]
+        [global::Xunit.InlineDataAttribute("E", "0.0", "4", new string[0])]
+        [global::Xunit.InlineDataAttribute("F", "\"string\"", "5", new string[0])]
+        [global::Xunit.InlineDataAttribute("G", "{ \"foo\": \"bar\" }", "6", new string[0])]
+        [global::Xunit.InlineDataAttribute("H", "[]", "7", new string[0])]
+        public async global::System.Threading.Tasks.Task SettingValues(string name, string value, string @__pickleIndex, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("name", name);
             argumentsOfScenario.Add("value", value);
             string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Setting default results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Setting values", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 18
@@ -257,92 +168,78 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
             {
                 await this.ScenarioStartAsync();
 #line 19
-    await testRunner.GivenAsync(string.Format("the result X is {0}", value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 20
-    await testRunner.ThenAsync(string.Format("the result X = {0}", value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.SkippableTheoryAttribute(DisplayName="Setting named results")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
-        [global::Xunit.TraitAttribute("Description", "Setting named results")]
-        [global::Xunit.InlineDataAttribute("A", "true", "11", new string[0])]
-        [global::Xunit.InlineDataAttribute("B", "false", "12", new string[0])]
-        [global::Xunit.InlineDataAttribute("C", "1", "13", new string[0])]
-        [global::Xunit.InlineDataAttribute("D", "-1", "14", new string[0])]
-        [global::Xunit.InlineDataAttribute("E", "0.0", "15", new string[0])]
-        [global::Xunit.InlineDataAttribute("F", "\"string\"", "16", new string[0])]
-        [global::Xunit.InlineDataAttribute("G", "{ \"foo\": \"bar\" }", "17", new string[0])]
-        [global::Xunit.InlineDataAttribute("H", "[]", "18", new string[0])]
-        public async global::System.Threading.Tasks.Task SettingNamedResults(string name, string value, string @__pickleIndex, string[] exampleTags)
-        {
-            string[] tagsOfScenario = exampleTags;
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("name", name);
-            argumentsOfScenario.Add("value", value);
-            string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Setting named results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 32
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 33
-    await testRunner.GivenAsync(string.Format("the result {0} is {1}", name, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 34
-    await testRunner.ThenAsync(string.Format("the result {0} = {1}", name, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.SkippableTheoryAttribute(DisplayName="Setting values")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
-        [global::Xunit.TraitAttribute("Description", "Setting values")]
-        [global::Xunit.InlineDataAttribute("A", "true", "19", new string[0])]
-        [global::Xunit.InlineDataAttribute("B", "false", "20", new string[0])]
-        [global::Xunit.InlineDataAttribute("C", "1", "21", new string[0])]
-        [global::Xunit.InlineDataAttribute("D", "-1", "22", new string[0])]
-        [global::Xunit.InlineDataAttribute("E", "0.0", "23", new string[0])]
-        [global::Xunit.InlineDataAttribute("F", "\"string\"", "24", new string[0])]
-        [global::Xunit.InlineDataAttribute("G", "{ \"foo\": \"bar\" }", "25", new string[0])]
-        [global::Xunit.InlineDataAttribute("H", "[]", "26", new string[0])]
-        public async global::System.Threading.Tasks.Task SettingValues(string name, string value, string @__pickleIndex, string[] exampleTags)
-        {
-            string[] tagsOfScenario = exampleTags;
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("name", name);
-            argumentsOfScenario.Add("value", value);
-            string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Setting values", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 46
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 47
     await testRunner.GivenAsync(string.Format("the value {0} is {1}", name, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 48
-    await testRunner.ThenAsync(string.Format("the value {0} = {1}", name, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 20
+    await testRunner.ThenAsync(string.Format("compare {0} = {1}", name, value), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Settings values as body")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
+        [global::Xunit.TraitAttribute("Description", "Settings values as body")]
+        public async global::System.Threading.Tasks.Task SettingsValuesAsBody()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "8";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Settings values as body", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 33
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 34
+    await testRunner.GivenAsync("the value X is", "{\n  \"items\": [\n    1,\n    2,\n    3\n  ]\n}", ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 44
+    await testRunner.ThenAsync("compare X =", "{\n  \"items\": [\n    1,\n    2,\n    3\n  ]\n}", ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Value substitutions")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
+        [global::Xunit.TraitAttribute("Description", "Value substitutions")]
+        public async global::System.Threading.Tasks.Task ValueSubstitutions()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "9";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Value substitutions", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 55
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 56
+    await testRunner.GivenAsync("the value X is \"X\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 57
+    await testRunner.AndAsync("the value Y is \"${X}Y\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 58
+    await testRunner.AndAsync("the value Z is \"${Y}Z\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 59
+    await testRunner.ThenAsync("compare Z = \"XYZ\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -355,7 +252,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "27";
+            string pickleIndex = "10";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enter values as tables", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
@@ -397,12 +294,12 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
                             "H",
                             "[]"});
 #line 62
-    await testRunner.GivenAsync("the values:", ((string)(null)), table2, "Given ");
+    await testRunner.GivenAsync("the values", ((string)(null)), table2, "Given ");
 #line hidden
                 global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
-                            "name",
+                            "lhs",
                             "op",
-                            "value"});
+                            "rhs"});
                 table3.AddRow(new string[] {
                             "A",
                             "=",
@@ -436,29 +333,21 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
                             "=",
                             "[]"});
 #line 72
-    await testRunner.ThenAsync("the values are:", ((string)(null)), table3, "Then ");
+    await testRunner.ThenAsync("the values", ((string)(null)), table3, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableTheoryAttribute(DisplayName="Comparison operators")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Jsonata query")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
-        [global::Xunit.TraitAttribute("Description", "Comparison operators")]
-        [global::Xunit.InlineDataAttribute("1", "<", "2", "28", new string[0])]
-        [global::Xunit.InlineDataAttribute("1", "<=", "2", "29", new string[0])]
-        [global::Xunit.InlineDataAttribute("3", "=", "3", "30", new string[0])]
-        [global::Xunit.InlineDataAttribute("4", ">=", "3", "31", new string[0])]
-        [global::Xunit.InlineDataAttribute("5", ">", "4", "32", new string[0])]
-        public async global::System.Threading.Tasks.Task ComparisonOperators(string a, string op, string b, string @__pickleIndex, string[] exampleTags)
+        [global::Xunit.TraitAttribute("Description", "Jsonata query")]
+        public async global::System.Threading.Tasks.Task JsonataQuery()
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("a", a);
-            argumentsOfScenario.Add("op", op);
-            argumentsOfScenario.Add("b", b);
-            string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Comparison operators", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string pickleIndex = "11";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Jsonata query", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 83
@@ -472,49 +361,10 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
             {
                 await this.ScenarioStartAsync();
 #line 84
-    await testRunner.GivenAsync(string.Format("the value A is {0}", a), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("the value DATA is", "{\n  \"items\": [\n    1,\n    2,\n    3\n  ]\n}", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 85
-    await testRunner.AndAsync(string.Format("the value B is {0}", b), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 86
-    await testRunner.ThenAsync(string.Format("value A {0} B", op), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.SkippableTheoryAttribute(DisplayName="Direct comparison operators")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Generic Results")]
-        [global::Xunit.TraitAttribute("Description", "Direct comparison operators")]
-        [global::Xunit.InlineDataAttribute("1", "<", "2", "33", new string[0])]
-        [global::Xunit.InlineDataAttribute("1", "<=", "2", "34", new string[0])]
-        [global::Xunit.InlineDataAttribute("3", "=", "3", "35", new string[0])]
-        [global::Xunit.InlineDataAttribute("4", ">=", "3", "36", new string[0])]
-        [global::Xunit.InlineDataAttribute("5", ">", "4", "37", new string[0])]
-        public async global::System.Threading.Tasks.Task DirectComparisonOperators(string a, string op, string b, string @__pickleIndex, string[] exampleTags)
-        {
-            string[] tagsOfScenario = exampleTags;
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("a", a);
-            argumentsOfScenario.Add("op", op);
-            argumentsOfScenario.Add("b", b);
-            string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Direct comparison operators", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 96
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 97
-    await testRunner.ThenAsync(string.Format("value {0} {1} {2}", a, op, b), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 94
+    await testRunner.ThenAsync("query DATA matches \'$count(items) > 1\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

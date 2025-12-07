@@ -4,6 +4,17 @@ using Reqnroll;
 
 namespace LSTC.CheeseShop.Domain.Tests.Steps
 {
+
+    public enum TestOperator
+    {
+        Lt,
+        Lte,
+        Eq,
+        Neq,
+        Gte,
+        Gt
+    }
+
     [Binding]
     public class Transforms
     {
@@ -11,6 +22,27 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
         public Transforms(ScenarioContext scenario)
         {
             _scenario = scenario;
+        }
+
+        [StepArgumentTransformation(@"(\w+)")]
+        public Collection Collection(string value)
+        {
+            return Enum.Parse<Collection>(value, true);
+        }
+
+        [StepArgumentTransformation(@"(<|<=|=|!=|>=|>)")]
+        public TestOperator Operator(string value)
+        {
+            switch (value)
+            {
+                case "<": return TestOperator.Lt;
+                case "<=": return TestOperator.Lte;
+                case "=": return TestOperator.Eq;
+                case "!=": return TestOperator.Neq;
+                case ">=": return TestOperator.Gte;
+                case ">": return TestOperator.Gt;
+                default: throw new ArgumentException("Invalid Value: {0}", value);
+            }
         }
 
         [StepArgumentTransformation(@"(GET|POST|PUT|DELETE|HEAD|OPTIONS|PATCH|CONNECT|TRACE)")]

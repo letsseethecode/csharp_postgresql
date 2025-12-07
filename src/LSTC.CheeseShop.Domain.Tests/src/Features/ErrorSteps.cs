@@ -19,20 +19,20 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
         [Given(@"an error is expected")]
         public void Given_an_error_is_expected()
         {
-            _scenario.SetProperty(ERRORS, ERRORS_EXPECTED, true);
+            _scenario.SetProperty(Collection.Error, ERRORS_EXPECTED, true);
         }
 
         [Then(@"an error was encountered")]
         public void Then_an_error_was_trapped()
         {
-            var e = _scenario.GetProperty<Exception>(ERRORS, ERRORS_EXCEPTION);
+            var e = _scenario.GetProperty<Exception>(Collection.Error, ERRORS_EXCEPTION);
             Assert.NotNull(e);
         }
 
         [Then(@"an error was not encountered")]
         public void Then_an_error_was_not_trapped()
         {
-            var e = _scenario.GetProperty<Exception>(ERRORS, ERRORS_EXCEPTION);
+            var e = _scenario.GetProperty<Exception>(Collection.Error, ERRORS_EXCEPTION);
             Assert.Null(e);
         }
 
@@ -44,8 +44,8 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
             }
             catch (Exception e)
             {
-                scenario.SetProperty(ERRORS, ERRORS_EXCEPTION, e);
-                if (!scenario.GetProperty(ERRORS, ERRORS_EXPECTED, false))
+                scenario.SetProperty(Collection.Error, ERRORS_EXCEPTION, e);
+                if (!scenario.GetProperty(Collection.Error, ERRORS_EXPECTED, false))
                     throw;
             }
         }

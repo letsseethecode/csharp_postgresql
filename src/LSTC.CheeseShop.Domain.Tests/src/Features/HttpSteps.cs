@@ -25,8 +25,6 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
     [Binding]
     public class HttpSteps
     {
-        const string HTTP_REQUEST = "http_request";
-        const string HTTP_HEADERS = "http_headers";
         const string BASE_URL = "baseUrl";
 
         private readonly ScenarioContext _scenario;
@@ -39,13 +37,13 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
         [Given(@"the base url (.*)")]
         public void Given_the_base_url(string baseUrl)
         {
-            _scenario.SetProperty(HTTP_REQUEST, BASE_URL, baseUrl);
+            _scenario.SetProperty(Collection.HttpRequest, BASE_URL, baseUrl);
         }
 
         [Given(@"the http headers")]
         public void Given_the_http_header(string name, string value)
         {
-            _scenario.SetProperty(HTTP_HEADERS, name, value);
+            _scenario.SetProperty(Collection.HttpHeader, name, value);
         }
 
         [Given(@"the http headers")]
@@ -80,8 +78,8 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
         {
             using (var client = new HttpClient())
             {
-                var baseUrl = _scenario.GetProperty<string>(HTTP_REQUEST, "baseUrl");
-                var headers = _scenario.GetDict(HTTP_HEADERS);
+                var baseUrl = _scenario.GetProperty<string>(Collection.HttpRequest, "baseUrl");
+                var headers = _scenario.GetDict(Collection.HttpHeader);
 
                 // Construct the URL
                 var uri = string.Format("{0}{1}", baseUrl, path);
@@ -101,6 +99,8 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
                     RequestUri = new Uri(uri),
                     Content = body != null ? new StringContent(body, Encoding.UTF8, "application/json") : null,
                 };
+                _scenario.SetProperty(Collection.Subject, request);
+
                 // Add HTTP headers
                 foreach (var (key, value) in headers)
                     request.Headers.Add(key, value.ToString());
@@ -112,7 +112,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
                 await ErrorSteps.Trap(_scenario, async () =>
                 {
                     var response = await client.SendAsync(request);
-                    _scenario.SetResult(response);
+                    _scenario.SetValue("result", response);
                 });
             }
         }
