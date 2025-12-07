@@ -8,6 +8,8 @@ endif
 SHELL := /bin/bash
 VERSION ?= latest
 
+DOTNET_ROOT = $(shell dirname $$(asdf which dotnet))
+
 include scripts/make/*.mk
 
 help: 																			## Show this help message
@@ -36,19 +38,25 @@ clean: 																			## Remove the temporary build files
 build: build--api build--migration ## Build the grate container
 	$(call highlight,"build","finished")
 
+test--clean:
+	find ./src -name "*.trx" | xargs rm 2> /dev/null || true
+
 # Tests must be marked with [Trait("Category", "Unit")] in xUnit or @Unit in Specflow
-test--unit:																		## Run the unit tests
+test--unit: test--clean															## Run the unit tests
 	$(call highlight,"test","unit tests complete")
+	echo ">> ${DOTNET_ROOT} <<"
 	dotnet test \
-		--logger "console;verbosity=detailed"
-		--filter "Category=Unit"
+		--logger trx \
+		--filter "Category=Unit"; \
+	trx --output --verbosity verbose --path ./src
 
 # Tests that are not marked as Unit tests (above) will be treated as integration tests.
-test--integration:																## Run the integration tests
+test--integration: test--clean													## Run the integration tests
 	$(call highlight,"test","integration tests complete")
 	dotnet test \
-		--logger "console;verbosity=detailed" \
-		--filter "Category!=Unit"
+		--logger trx \
+		--filter "Category!=Unit"; \
+	trx --output --verbosity verbose --path ./src
 
 test: test--unit test--integration									## Run all the tests
 	$(call highlight,"test","complete")
