@@ -1,4 +1,4 @@
-namespace LTSC.CheeseShop.CQS
+namespace LSTC.CheeseShop.Domain
 {
     public class DomainEvent
     {

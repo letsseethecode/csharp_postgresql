@@ -1,6 +1,6 @@
 namespace LSTC.CheeseShop.Domain
 {
-    public class MovementCreatedEvent : LTSC.CheeseShop.CQS.DomainEvent
+    public class MovementCreatedEvent : DomainEvent
     {
         public Movement Movement { get; private set; }
 
