@@ -9,20 +9,12 @@ namespace LSTC.CheeseShop.Domain
     {
         public Product CreateProduct(Guid id, string name, string description)
         {
-            return new Product(
-                id,
-                name,
-                description
-            );
+            return new Product(id, name, description);
         }
 
         public Location CreateLocation(Guid id, string name, string description)
         {
-            return new Location(
-                id,
-                name,
-                description
-            );
+            return new Location(id, name, description);
         }
     }
 }
