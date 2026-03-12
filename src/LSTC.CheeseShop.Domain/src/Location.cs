@@ -7,7 +7,7 @@ namespace LSTC.CheeseShop.Domain
         public string Description { get; protected internal set; }
 
         /// <summary>
-        /// Indicates that the location is a Supplier and therefore does not 
+        /// Indicates that the location is a Supplier and therefore does not
         /// need to check stock levels before creating movements.
         /// </summary>
         public bool IsSupplier { get; protected internal set; }
@@ -18,25 +18,30 @@ namespace LSTC.CheeseShop.Domain
         /// </summary>
         public bool IsExternal { get; protected internal set; }
 
-        public Movement? MoveProducts(IStockChecker stockChecker,
-                                     Product product,
-                                     Location destination,
-                                     int quantity,
-                                     DateTime date)
+        public (Movement, DomainEvent)? MoveProducts(IStockChecker stockChecker,
+                                                     Product product,
+                                                     Location destination,
+                                                     int quantity,
+                                                     DateTime date
+        )
         {
             if (IsSupplier && !stockChecker.HasStock(this, product, quantity, date))
             {
                 return null;
             }
-            return new Movement
+
+            var movement = new Movement
             {
                 Id = Guid.NewGuid(),
                 Product = product,
                 Source = this,
                 Destination = destination,
                 Quantity = quantity,
-                Date = date
+                Date = date,
             };
+            var @event = new MovementCreatedEvent(movement);
+
+            return (movement, @event);
         }
     }
 }
