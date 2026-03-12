@@ -1,8 +1,7 @@
 namespace LSTC.CheeseShop.Domain
 {
-    public class Movement
+    public class Movement : Entity
     {
-        public Guid Id { get; set; }
         public Location Source { get; set; }
         public Location Destination { get; set; }
         public Product Product { get; set; }
