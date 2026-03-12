@@ -1,8 +1,7 @@
 namespace LSTC.CheeseShop.Domain
 {
-    public class Location
+    public class Location : Entity
     {
-        public Guid Id { get; protected internal set; }
         public string Name { get; protected internal set; }
         public string Description { get; protected internal set; }
 
@@ -17,6 +16,21 @@ namespace LSTC.CheeseShop.Domain
         /// that stock has been moved outside the business.
         /// </summary>
         public bool IsExternal { get; protected internal set; }
+
+        public Location(
+            Guid id,
+            string name,
+            string description,
+            bool isSupplier = false,
+            bool isExternal = false
+        )
+            : base(id)
+        {
+            this.Name = name;
+            this.Description = description;
+            this.IsSupplier = isSupplier;
+            this.IsExternal = isExternal;
+        }
 
         /// <summary>
         /// Create a movement of products from this location to a destination location.
@@ -39,15 +53,14 @@ namespace LSTC.CheeseShop.Domain
                 return null;
             }
 
-            var movement = new Movement
-            {
-                Id = Guid.NewGuid(),
-                Product = product,
-                Source = this,
-                Destination = destination,
-                Quantity = quantity,
-                Date = date,
-            };
+            var movement = new Movement(
+                 Guid.NewGuid(),
+                 this,
+                 destination,
+                 product,
+                 quantity,
+                 date
+            );
             var @event = new MovementCreatedEvent(movement);
 
             return (movement, @event);
