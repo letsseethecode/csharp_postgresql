@@ -41,11 +41,12 @@ namespace LSTC.CheeseShop.Domain
         /// <param name="quantity">number to move</param>
         /// <param name="date">when the movement is to occur</param>
         /// <returns></returns>
-        public (Movement, DomainEvent)? MoveProducts(IStockChecker stockChecker,
-                                                     Product product,
-                                                     Location destination,
-                                                     int quantity,
-                                                     DateTime date
+        public (Movement, DomainEvent)? MoveProducts(
+            IStockChecker stockChecker,
+            Product product,
+            Location destination,
+            int quantity,
+            DateTime date
         )
         {
             if (IsSupplier && !stockChecker.HasStock(this, product, quantity, date))
@@ -53,14 +54,7 @@ namespace LSTC.CheeseShop.Domain
                 return null;
             }
 
-            var movement = new Movement(
-                 Guid.NewGuid(),
-                 this,
-                 destination,
-                 product,
-                 quantity,
-                 date
-            );
+            var movement = new Movement(Guid.NewGuid(), this, destination, product, quantity, date);
             var @event = new MovementCreatedEvent(movement);
 
             return (movement, @event);
