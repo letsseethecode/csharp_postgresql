@@ -18,6 +18,15 @@ namespace LSTC.CheeseShop.Domain
         /// </summary>
         public bool IsExternal { get; protected internal set; }
 
+        /// <summary>
+        /// Create a movement of products from this location to a destination location.
+        /// </summary>
+        /// <param name="stockChecker">service that can check stock levelts</param>
+        /// <param name="product">product to move</param>
+        /// <param name="destination">destination location</param>
+        /// <param name="quantity">number to move</param>
+        /// <param name="date">when the movement is to occur</param>
+        /// <returns></returns>
         public (Movement, DomainEvent)? MoveProducts(IStockChecker stockChecker,
                                                      Product product,
                                                      Location destination,
