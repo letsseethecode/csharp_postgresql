@@ -1,4 +1,4 @@
-namespace LSTC.Shared.CQS;
+namespace LSTC.Shared.CQS.Events;
 
 public interface IEventHandler<TEvent>
 {

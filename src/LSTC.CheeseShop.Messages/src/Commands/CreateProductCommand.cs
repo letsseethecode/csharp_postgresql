@@ -1,4 +1,4 @@
-using LSTC.Shared.CQS;
+using LSTC.Shared.src.CQS.Commands;
 
 namespace LSTC.CheeseShop.Messages.Commands;
 

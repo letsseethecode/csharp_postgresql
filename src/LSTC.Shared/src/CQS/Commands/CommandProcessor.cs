@@ -1,21 +1,8 @@
-using System.Runtime.InteropServices.Swift;
-
-namespace LSTC.Shared.CQS;
+namespace LSTC.Shared.CQS.Commands;
 
 /// <summary>
-/// Executes a single command
+/// The CommandProcessor is responsible for executing commands.
 /// </summary>
-/// <typeparam name="TCommand"></typeparam>
-public interface ICommandProcessor<TCommand>
-{
-    /// <summary>
-    /// Execute the command.
-    /// </summary>
-    /// <param name="command"></param>
-    /// <returns>Returns a Task because it will be implemented as async</returns>
-    public Task ExecuteAsync(TCommand command);
-}
-
 public class CommandProcessor
 {
     private ICommandResolver _resolver;
@@ -34,7 +21,7 @@ public class CommandProcessor
     /// </summary>
     /// <typeparam name="TCommand"></typeparam>
     /// <param name="command"></param>
-    public async void Execute<TCommand>(TCommand command) where TCommand : ICommand
+    public async Task ExecuteAsync<TCommand>(TCommand command) where TCommand : ICommand
     {
         var processor = this._resolver.Resolve<TCommand>();
         await processor.ExecuteAsync(command);

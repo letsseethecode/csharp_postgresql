@@ -78,15 +78,15 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
             var expected = Parse(rhs);
             if (op == TestOperator.Eq)
             {
-                Assert.Equal(actual, expected);
+                Assert.Equal(expected, actual);
             }
             else if (op == TestOperator.Neq)
             {
-                Assert.NotEqual(actual, expected);
+                Assert.NotEqual(expected, actual);
             }
             else
             {
-                var res = ((IComparable)actual).CompareTo(expected);
+                var res = ((IComparable)actual!).CompareTo(expected);
                 switch (op)
                 {
                     case TestOperator.Lt:
