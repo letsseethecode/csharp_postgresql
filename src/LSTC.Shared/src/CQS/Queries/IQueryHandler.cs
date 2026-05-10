@@ -1,11 +1,14 @@
 namespace LSTC.Shared.CQS.Queries;
 
-public interface IQueryHandler<TQuery>
+public interface IQueryHandler<TResults>
+    where TResults : IQueryResults
 {
-    Task<TQuery> ExecuteAsync();
+    Task<TResults> ExecuteAsync();
 }
 
-public interface IQueryHandler<TQuery, TArgs>
+public interface IQueryHandler<TResults, TArgs>
+    where TResults : IQueryResults
+    where TArgs : IQueryArgs
 {
-    Task<TQuery> ExecuteAsync(TArgs args);
+    Task<TResults> ExecuteAsync(TArgs args);
 }

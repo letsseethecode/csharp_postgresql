@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace LSTC.Shared.CQS.Commands;
 
 /// <summary>
 /// The CommandProcessor is responsible for executing commands.
 /// </summary>
-public class CommandProcessor
+public class CommandProcessor : Processor
 {
     private ICommandResolver _resolver;
 
@@ -24,6 +26,12 @@ public class CommandProcessor
     public async Task ExecuteAsync<TCommand>(TCommand command) where TCommand : ICommand
     {
         var processor = this._resolver.Resolve<TCommand>();
+        Validate(command);
         await processor.ExecuteAsync(command);
+    }
+
+    public void Validate<TCommand>(TCommand command) where TCommand : ICommand
+    {
+        ValidateObject(command);
     }
 }

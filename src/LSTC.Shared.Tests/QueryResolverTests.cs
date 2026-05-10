@@ -1,12 +1,13 @@
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using LSTC.Shared.CQS.Queries;
+using System.ComponentModel.DataAnnotations;
 
 namespace LSTC.Shared.Tests;
 
 public class QueryResolverTests
 {
-    public class TestQuery : IQuery
+    public class TestQuery : IQueryResults
     {
     }
 
@@ -26,9 +27,10 @@ public class QueryResolverTests
         }
     }
 
-    public class TestQueryArgs
+    public class TestQueryArgs : IQueryArgs
     {
     }
+
     public class TestQueryArgsHandler : IQueryHandler<TestQuery, TestQueryArgs>
     {
         public Task<TestQuery> ExecuteAsync(TestQueryArgs args)

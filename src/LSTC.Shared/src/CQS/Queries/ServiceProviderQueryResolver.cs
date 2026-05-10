@@ -12,7 +12,7 @@ public class ServiceProviderQueryResolver : IQueryResolver
     }
 
     public IQueryHandler<TQuery> Resolve<TQuery>()
-        where TQuery : IQuery
+        where TQuery : IQueryResults
     {
         var processor = _serviceProvider.GetServices(typeof(IQueryHandler<TQuery>)) as IEnumerable<IQueryHandler<TQuery>>;
         var e = processor!.GetEnumerator();
@@ -25,7 +25,8 @@ public class ServiceProviderQueryResolver : IQueryResolver
     }
 
     public IQueryHandler<TQuery, TArgs> Resolve<TQuery, TArgs>()
-        where TQuery : IQuery
+        where TQuery : IQueryResults
+        where TArgs : IQueryArgs
     {
         var processor = _serviceProvider.GetServices(typeof(IQueryHandler<TQuery, TArgs>)) as IEnumerable<IQueryHandler<TQuery, TArgs>>;
         var e = processor!.GetEnumerator();
