@@ -1,3 +1,5 @@
+using LSTC.Shared.Domain;
+
 namespace LSTC.CheeseShop.Domain
 {
     public class Location : Entity
@@ -41,7 +43,7 @@ namespace LSTC.CheeseShop.Domain
         /// <param name="quantity">number to move</param>
         /// <param name="date">when the movement is to occur</param>
         /// <returns></returns>
-        public (Movement, DomainEvent)? MoveProducts(
+        public Result<Movement>? MoveProducts(
             IStockChecker stockChecker,
             Product product,
             Location destination,
@@ -51,13 +53,13 @@ namespace LSTC.CheeseShop.Domain
         {
             if (IsSupplier && !stockChecker.HasStock(this, product, quantity, date))
             {
-                return null;
+                return Result<Movement>.Failure("Insufficient stock");
             }
 
             var movement = new Movement(Guid.NewGuid(), this, destination, product, quantity, date);
             var @event = new MovementCreatedEvent(movement);
 
-            return (movement, @event);
+            return Result.Success(movement, @event);
         }
     }
 }

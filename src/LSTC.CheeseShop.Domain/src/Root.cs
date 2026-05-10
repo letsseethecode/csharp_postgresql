@@ -1,3 +1,5 @@
+using LSTC.Shared.Domain;
+
 namespace LSTC.CheeseShop.Domain
 {
     /// <summary>
@@ -7,14 +9,14 @@ namespace LSTC.CheeseShop.Domain
     /// </summary>
     public class Root
     {
-        public Product CreateProduct(Guid id, string name, string description)
+        public Result<Product> CreateProduct(Guid id, string name, string description)
         {
-            return new Product(id, name, description);
+            return Result.Success(new Product(id, name, description));
         }
 
-        public Location CreateLocation(Guid id, string name, string description)
+        public Result<Location> CreateLocation(Guid id, string name, string description)
         {
-            return new Location(id, name, description);
+            return Result.Success(new Location(id, name, description));
         }
     }
 }
