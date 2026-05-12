@@ -1,4 +1,4 @@
-using LSTC.Shared.src.CQS.Events;
+using LSTC.Shared.CQS.Events;
 
 namespace LSTC.CheeseShop.Messages.Events;
 

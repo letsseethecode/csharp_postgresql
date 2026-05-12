@@ -27,20 +27,7 @@ public class CommandProcessorTests
     }
 
     [Fact]
-    public async Task CommandProcessor_resolves()
-    {
-        var serviceProvider = new ServiceCollection()
-            .AddScoped<ICommandHandler<TestCommand>, TestCommandHandler>()
-            .AddScoped<ICommandResolver, ServiceProviderCommandResolver>()
-            .AddScoped<CommandProcessor, CommandProcessor>()
-            .BuildServiceProvider();
-        var processor = serviceProvider.GetService<CommandProcessor>()!;
-        
-        await processor.ExecuteAsync(new TestCommand("VALID"));
-    }
-
-    [Fact]
-    public async Task CommandProcessor_succeeds_validation_with_no_errors()
+    public async Task CommandProcessor_succeeds_validation()
     {
         var serviceProvider = new ServiceCollection()
             .AddScoped<ICommandResolver, ServiceProviderCommandResolver>()
