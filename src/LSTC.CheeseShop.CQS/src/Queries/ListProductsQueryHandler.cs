@@ -10,7 +10,13 @@ public class ListProductsQueryHandler : IQueryHandler<ListProductsQuery.Results,
         return Task.FromResult(new ListProductsQuery.Results
         {
             Args = args,
-            Data = $"{{ \"Id\": \"{args.Id}\", \"Name\": \"Test Product\" }}"
+            Products = [
+                new ListProductsQuery.Product
+                {
+                    Id = args.Id,
+                    Name = "Test Product"
+                }
+            ]
         });
     }
 }

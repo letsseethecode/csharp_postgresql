@@ -9,9 +9,15 @@ public class ListProductsQuery
         public string Id { get; set; } = string.Empty;
     }
 
+    public class Product
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+    }
+
     public class Results : IQueryResults
     {
         public Args? Args { get; set; } = null;
-        public string Data { get; set; } = string.Empty;
+        public Product[] Products { get; set; } = [];
     }
 }

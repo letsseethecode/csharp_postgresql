@@ -123,7 +123,7 @@ public static class EndpointRegistrationExtensions
             }) ?? Results.Ok(new ApiResponse<TQueryResults>("OK", result));
         })
         .WithOpenApi(op => OpenApiHelper.Generate(op, map))
-        .Produces<ApiResponse>(StatusCodes.Status200OK)
+        .Produces<ApiResponse<TQueryResults>>(StatusCodes.Status200OK)
         .Produces<ApiResponse>(StatusCodes.Status400BadRequest)
         .Produces<ApiResponse>(StatusCodes.Status422UnprocessableEntity)
         .Produces<ApiResponse>(StatusCodes.Status500InternalServerError);
