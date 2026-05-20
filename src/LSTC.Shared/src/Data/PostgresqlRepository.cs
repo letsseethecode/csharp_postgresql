@@ -29,7 +29,7 @@ public class PostgresqlRepository<TEntity> : IRepository<TEntity, Guid>
     public async Task Execute(Guid id, Func<TEntity, Task> action)
     {
         var item = await this.LoadOne(id);
-        await action(item);
-        await this.Save(item);
+        await action(item!);
+        await this.Save(item!);
     }
 }

@@ -5,9 +5,13 @@ namespace LSTC.CheeseShop.CQS.Queries;
 
 public class ListProductsQueryHandler : IQueryHandler<ListProductsQuery.Results, ListProductsQuery.Args>
 {
-    public Task<ListProductsQuery.Results> ExecuteAsync(ListProductsQuery.Args args)
+    public ListProductsQueryHandler()
     {
-        return Task.FromResult(new ListProductsQuery.Results
+    }
+
+    public async Task<ListProductsQuery.Results> ExecuteAsync(ListProductsQuery.Args args)
+    {
+        return await Task.FromResult(new ListProductsQuery.Results
         {
             Args = args,
             Products = [

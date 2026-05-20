@@ -24,10 +24,10 @@ builder.Services
 // Add services to the container.
 builder.Services
     .AddTransient<IUserService, UserService>()
-    .AddCommandMaps(typeof(CreateProductCommandMap).Assembly)
-    .AddCommandHandlers(typeof(CreateProductCommandMap).Assembly)
-    .AddQueryMaps(typeof(ListProductsQueryMap).Assembly)
-    .AddQueryHandlers(typeof(ListProductsQueryMap).Assembly);
+    .AddCommandMaps(typeof(CreateProductCommandHttpMap).Assembly)
+    .AddCommandHandlers(typeof(CreateProductCommandHttpMap).Assembly)
+    .AddQueryMaps(typeof(ListProductsQueryHttpMap).Assembly)
+    .AddQueryHandlers(typeof(ListProductsQueryHttpMap).Assembly);
 
 builder.WebHost.ConfigureKestrel(options =>
 {

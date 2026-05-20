@@ -5,8 +5,8 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
 {
     public class HttpHeader
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
     }
 
     public enum HttpArgType
@@ -18,8 +18,8 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
     public class HttpArgument
     {
         public HttpArgType Type { get; set; }
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
     }
 
     [Binding]

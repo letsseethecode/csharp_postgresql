@@ -3,9 +3,9 @@ using LSTC.Shared.CQS.Http;
 
 namespace LSTC.CheeseShop.CQS.Commands;
 
-public class CreateProductCommandMap : HttpCommandMap<CreateProductCommand>
+public class CreateProductCommandHttpMap : HttpCommandMap<CreateProductCommand>
 {
-    public CreateProductCommandMap()
+    public CreateProductCommandHttpMap()
     {
         Route("/product");
         FromHeader(x => x.CorrelationId, "X-Correlation-Id");

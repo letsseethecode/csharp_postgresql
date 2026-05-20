@@ -3,9 +3,9 @@ using LSTC.Shared.CQS.Http;
 
 namespace LSTC.CheeseShop.CQS.Queries;
 
-public class ListProductsQueryMap : HttpQueryArgsMap<ListProductsQuery.Args>
+public class ListProductsQueryHttpMap : HttpQueryArgsMap<ListProductsQuery.Args>
 {
-    public ListProductsQueryMap()
+    public ListProductsQueryHttpMap()
     {
         Route("/products/{id}");
         FromPath(x => x.Id, "id");

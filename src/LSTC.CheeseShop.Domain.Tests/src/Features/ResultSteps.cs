@@ -112,7 +112,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Steps
 
         private void Query(string data, string query)
         {
-            var d = Parse(data, true) as JToken;
+            var d = (Parse(data, true) as JToken)!;
             var q = new JsonataQuery(query);
             var result = q.Eval(d).ToObject<bool>();
             Assert.True(result, string.Format("'{1}' did not match {0}", d.ToFlatString(), q));

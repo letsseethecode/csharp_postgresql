@@ -64,7 +64,7 @@ public abstract class HttpBaseMap<TEntity> where TEntity : new()
         var result = new TEntity();
         ReadHeaders(request, errors, result);
         ReadPath(routeValues, errors, result);
-        ReadBody(json, errors, result);
+        ReadBody(json!, errors, result);
         ReadQueryString(request, errors, result);
         ThrowErrors(errors);
         return result;
