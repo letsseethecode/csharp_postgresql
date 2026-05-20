@@ -12,13 +12,6 @@ public class QueryProcessor : Processor
         _resolver = resolver;
     }
 
-    public async Task<TResults> ExecuteAsync<TResults>()
-        where TResults : IQueryResults
-    {
-        var processor = _resolver.Resolve<TResults>();
-        return await processor.ExecuteAsync();
-    }
-
     public async Task<TResults> ExecuteAsync<TResults, TArgs>(TArgs args)
         where TResults : IQueryResults
         where TArgs : IQueryArgs

@@ -20,13 +20,8 @@ public class QueryProcessorTests
             }
         }
 
-        public class Handler : IQueryHandler<TestQuery>, IQueryHandler<TestQuery, Args>
+        public class Handler : IQueryHandler<TestQuery, Args>
         {
-            public Task<TestQuery> ExecuteAsync()
-            {
-                return Task.FromResult(new TestQuery());
-            }
-
             public Task<TestQuery> ExecuteAsync(Args args)
             {
                 return Task.FromResult(new TestQuery());
@@ -35,7 +30,7 @@ public class QueryProcessorTests
     }
 
     [Fact]
-    public void CommandProcessor_succeeds_validation_with_no_errors()
+    public async Task CommandProcessor_succeeds_validation_with_no_errors()
     {
         var serviceProvider = new ServiceCollection()
             .AddScoped<IQueryResolver, ServiceProviderQueryResolver>()
@@ -44,7 +39,7 @@ public class QueryProcessorTests
             .BuildServiceProvider();
         var processor = serviceProvider.GetService<QueryProcessor>()!;
         
-        processor.ExecuteAsync<TestQuery, TestQuery.Args>(new TestQuery.Args("VALID")).Wait();
+        await processor.ExecuteAsync<TestQuery, TestQuery.Args>(new TestQuery.Args("VALID"));
     }
 
     [Fact]

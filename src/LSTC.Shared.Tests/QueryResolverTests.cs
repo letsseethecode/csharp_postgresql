@@ -11,22 +11,6 @@ public class QueryResolverTests
     {
     }
 
-    public class TestQueryHandler : IQueryHandler<TestQuery>
-    {
-        public Task<TestQuery> ExecuteAsync()
-        {
-            return Task.FromResult(new TestQuery());
-        }
-    }
-
-    public class DuplicateQueryHandler : IQueryHandler<TestQuery>
-    {
-        public Task<TestQuery> ExecuteAsync()
-        {
-            return Task.FromResult(new TestQuery());
-        }
-    }
-
     public class TestQueryArgs : IQueryArgs
     {
     }
@@ -48,17 +32,6 @@ public class QueryResolverTests
     }
 
     [Fact]
-    public void Query_handler_not_registered()
-    {
-        var serviceProvider = new ServiceCollection()
-            .AddScoped<IQueryResolver, ServiceProviderQueryResolver>()
-            .BuildServiceProvider();
-        var resolver = serviceProvider.GetService<IQueryResolver>()!;
-        
-        Assert.Throws<InvalidOperationException>(() => resolver.Resolve<TestQuery>());
-    }
-
-    [Fact]
     public void Query_args_handler_not_registered()
     {
         var serviceProvider = new ServiceCollection()
@@ -67,19 +40,6 @@ public class QueryResolverTests
         var resolver = serviceProvider.GetService<IQueryResolver>()!;
         
         Assert.Throws<InvalidOperationException>(() => resolver.Resolve<TestQuery, TestQueryArgs>());
-    }
-
-    [Fact]
-    public void Query_handler_registered()
-    {
-        var serviceProvider = new ServiceCollection()
-            .AddScoped<IQueryHandler<TestQuery>, TestQueryHandler>()
-            .AddScoped<IQueryResolver, ServiceProviderQueryResolver>()
-            .BuildServiceProvider();
-        var resolver = serviceProvider.GetService<IQueryResolver>()!;
-        
-        var handler = resolver.Resolve<TestQuery>();
-        Assert.NotNull(handler);
     }
 
     [Fact]
@@ -96,19 +56,6 @@ public class QueryResolverTests
     }
 
     [Fact]
-    public void Query_handler_registered_twice()
-    {
-        var serviceProvider = new ServiceCollection()
-            .AddScoped<IQueryHandler<TestQuery>, TestQueryHandler>()
-            .AddScoped<IQueryHandler<TestQuery>, TestQueryHandler>()
-            .AddScoped<IQueryResolver, ServiceProviderQueryResolver>()
-            .BuildServiceProvider();
-        var resolver = serviceProvider.GetService<IQueryResolver>()!;
-        
-        Assert.Throws<InvalidOperationException>(() => resolver.Resolve<TestQuery>());
-    }
-
-    [Fact]
     public void Query_args_handler_registered_twice()
     {
         var serviceProvider = new ServiceCollection()
@@ -119,19 +66,6 @@ public class QueryResolverTests
         var resolver = serviceProvider.GetService<IQueryResolver>()!;
         
         Assert.Throws<InvalidOperationException>(() => resolver.Resolve<TestQuery, TestQueryArgs>());
-    }
-
-    [Fact]
-    public void Query_handler_duplicate_registered()
-    {
-        var serviceProvider = new ServiceCollection()
-            .AddScoped<IQueryHandler<TestQuery>, TestQueryHandler>()
-            .AddScoped<IQueryHandler<TestQuery>, DuplicateQueryHandler>()
-            .AddScoped<IQueryResolver, ServiceProviderQueryResolver>()
-            .BuildServiceProvider();
-        var resolver = serviceProvider.GetService<IQueryResolver>()!;
-        
-        Assert.Throws<InvalidOperationException>(() => resolver.Resolve<TestQuery>());
     }
 
     [Fact]

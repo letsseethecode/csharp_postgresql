@@ -11,19 +11,6 @@ public class ServiceProviderQueryResolver : IQueryResolver
         _serviceProvider = serviceProvider;
     }
 
-    public IQueryHandler<TQuery> Resolve<TQuery>()
-        where TQuery : IQueryResults
-    {
-        var processor = _serviceProvider.GetServices(typeof(IQueryHandler<TQuery>)) as IEnumerable<IQueryHandler<TQuery>>;
-        var e = processor!.GetEnumerator();
-        if (!e.MoveNext())
-            throw new InvalidOperationException($"No query processor found for query type {typeof(TQuery).FullName}");
-        var p = e.Current;
-        if (e.MoveNext())
-            throw new InvalidOperationException($"Multiple query processors found for query type {typeof(TQuery).FullName}");
-        return p;
-    }
-
     public IQueryHandler<TQuery, TArgs> Resolve<TQuery, TArgs>()
         where TQuery : IQueryResults
         where TArgs : IQueryArgs

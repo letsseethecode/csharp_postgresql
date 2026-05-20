@@ -1,6 +1,8 @@
+using System.Buffers;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json.Linq;
@@ -9,16 +11,13 @@ namespace LSTC.Shared.CQS.Http;
 
 public abstract class HttpBaseMap<TEntity> where TEntity : new()
 {
-    public IDictionary<string, string> Classifications { get; } = new Dictionary<string, string>();
+    public string Path { get; private set; } = string.Empty;
+    public string? Summary { get; private set; } = string.Empty;
+    public string? Description { get; private set; } = string.Empty;
     public IList<Mapping> Headers { get; } = new List<Mapping>();
     public IList<Mapping> PathParameters { get; } = new List<Mapping>();
     public IList<Mapping> BodyParameters { get; } = new List<Mapping>();
     public IList<Mapping> QueryStringParameters { get; } = new List<Mapping>();
-
-    protected void Classify(string key, string value)
-    {
-        Classifications[key] = value;
-    }
 
     private PropertyInfo GetProperty<TValue>(Expression<Func<TEntity, TValue>> expr)
     {
@@ -27,6 +26,11 @@ public abstract class HttpBaseMap<TEntity> where TEntity : new()
             throw new ArgumentException("Expression must be a property access", nameof(expr));
         }
         return property;
+    }
+
+    protected void Route(string path)
+    {
+        Path = path;
     }
 
     protected void FromHeader<TValue>(Expression<Func<TEntity, TValue>> expr, string? name = null)
@@ -76,8 +80,10 @@ public abstract class HttpBaseMap<TEntity> where TEntity : new()
             errors.Add(new ValidationException($"Unsupported content type: {contentType}"));
         else
         {
-            var reader = new StreamReader(request.Body);
-            var body = await reader.ReadToEndAsync();
+            request.EnableBuffering();
+            request.Body.Position = 0;
+            var result = await request.BodyReader.ReadAsync();
+            var body = Encoding.UTF8.GetString(result.Buffer.ToArray());
             json = JObject.Parse(body);
         }
 
@@ -97,17 +103,26 @@ public abstract class HttpBaseMap<TEntity> where TEntity : new()
         }
     }
 
+    private static object ChangeType(string value, Type targetType)
+    {
+        if (targetType == typeof(Guid) || targetType == typeof(Guid?))
+            return Guid.Parse(value);
+
+        return Convert.ChangeType(value, targetType);
+    }
+
     private void ReadQueryString(HttpRequest request, List<ValidationException> errors, TEntity result)
     {
         foreach (var queryMap in QueryStringParameters)
         {
             var value = request.Query[queryMap.Name].FirstOrDefault();
-            if (value == null)
+            if (queryMap.Property.PropertyType.IsValueType && Nullable.GetUnderlyingType(queryMap.Property.PropertyType) == null && value == null)
             {
                 errors.Add(new ValidationException($"Missing required query parameter: {queryMap.Name}"));
                 continue;
             }
-            queryMap.Property.SetValue(result, Convert.ChangeType(value, queryMap.Property.PropertyType));
+            var v = value == null ? null : ChangeType(value, queryMap.Property.PropertyType);
+            queryMap.Property.SetValue(result, v);
         }
     }
 
@@ -122,12 +137,13 @@ public abstract class HttpBaseMap<TEntity> where TEntity : new()
             }
 
             var token = json.SelectToken(bodyMap.Name);
-            if (token == null)
+            if (bodyMap.Property.PropertyType.IsValueType && Nullable.GetUnderlyingType(bodyMap.Property.PropertyType) == null && token == null)
             {
                 errors.Add(new ValidationException($"Missing required body parameter: {bodyMap.Name}"));
                 continue;
             }
-            bodyMap.Property.SetValue(result, token.ToObject(bodyMap.Property.PropertyType));
+            var v = token == null ? null : token.ToObject(bodyMap.Property.PropertyType);
+            bodyMap.Property.SetValue(result, v);
         }
     }
 
@@ -136,12 +152,13 @@ public abstract class HttpBaseMap<TEntity> where TEntity : new()
         foreach (var pathMap in PathParameters)
         {
             var value = routeValues[pathMap.Name]?.ToString();
-            if (value == null)
+            if (pathMap.Property.PropertyType.IsValueType && Nullable.GetUnderlyingType(pathMap.Property.PropertyType) == null && value == null)
             {
                 errors.Add(new ValidationException($"Missing required path parameter: {pathMap.Name}"));
                 continue;
             }
-            pathMap.Property.SetValue(result, Convert.ChangeType(value, pathMap.Property.PropertyType));
+            var v = value == null ? null : ChangeType(value, pathMap.Property.PropertyType);
+            pathMap.Property.SetValue(result, v);
         }
     }
 
@@ -150,12 +167,13 @@ public abstract class HttpBaseMap<TEntity> where TEntity : new()
         foreach (var headerMap in Headers)
         {
             var value = request.Headers[headerMap.Name].FirstOrDefault();
-            if (value == null)
+            if (headerMap.Property.PropertyType.IsValueType && Nullable.GetUnderlyingType(headerMap.Property.PropertyType) == null && value == null)
             {
                 errors.Add(new ValidationException($"Missing required header: {headerMap.Name}"));
                 continue;
             }
-            headerMap.Property.SetValue(result, Convert.ChangeType(value, headerMap.Property.PropertyType));
+            var v = value == null ? null : ChangeType(value, headerMap.Property.PropertyType);
+            headerMap.Property.SetValue(result, v);
         }
     }
 }

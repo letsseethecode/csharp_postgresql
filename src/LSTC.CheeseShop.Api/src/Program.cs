@@ -1,30 +1,52 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Scalar.AspNetCore;
+
+using LSTC.Shared.Http;
+using LSTC.CheeseShop.CQS.Commands;
 using LSTC.CheeseShop.Api.Services;
 using LSTC.CheeseShop.Api.HealthChecks;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+using LSTC.CheeseShop.CQS.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-9.0
-builder.Services.AddHealthChecks()
-                .AddCheck<CustomHealthCheck>("liveness", tags: ["live"])
-                .AddCheck<CustomHealthCheck>("logs", tags: ["ready"])
-                .AddCheck<CustomHealthCheck>("filesystem", tags: ["ready"])
-                .AddCheck<CustomHealthCheck>("database", tags: ["ready"])
-                .AddCheck<CustomHealthCheck>("eventbus", tags: ["ready"]);
-;
+builder.Services
+    .AddSingleton(builder.Services)
+    .AddHealthChecks()
+    .AddCheck<CustomHealthCheck>("liveness", tags: ["live"])
+    .AddCheck<CustomHealthCheck>("logs", tags: ["ready"])
+    .AddCheck<CustomHealthCheck>("filesystem", tags: ["ready"])
+    .AddCheck<CustomHealthCheck>("database", tags: ["ready"])
+    .AddCheck<CustomHealthCheck>("eventbus", tags: ["ready"]);
 
 // Add services to the container.
-builder.Services.AddTransient<IUserService, UserService>();
+builder.Services
+    .AddTransient<IUserService, UserService>()
+    .AddCommandMaps(typeof(CreateProductCommandMap).Assembly)
+    .AddCommandHandlers(typeof(CreateProductCommandMap).Assembly)
+    .AddQueryMaps(typeof(ListProductsQueryMap).Assembly)
+    .AddQueryHandlers(typeof(ListProductsQueryMap).Assembly);
+
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.AllowSynchronousIO = true;
 });
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApi(config =>
+{
+    config.AddDocumentTransformer((document, request, cancel) =>
+    {
+        document.Info.Title = "LSTC Cheese Shop API";
+        document.Info.Description = "API for managing the LSTC Cheese Shop";
+        document.Info.Version = "1.0.0";
+
+        document.Components ??= new Microsoft.OpenApi.Models.OpenApiComponents();
+
+        return Task.CompletedTask;
+    });
+});
 
 var app = builder.Build();
 
@@ -77,11 +99,8 @@ app.MapHealthChecks("/readyz", new HealthCheckOptions
     ResponseWriter = HealthCheckResponseWriter
 });
 
-
-
 app.MapHealthChecks("/livez", new HealthCheckOptions
 {
-
     AllowCachingResponses = false,
     Predicate = healthCheck => !healthCheck.Tags.Contains("ready"),
     ResponseWriter = HealthCheckResponseWriter
@@ -90,17 +109,12 @@ app.MapHealthChecks("/livez", new HealthCheckOptions
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    });
+    app.MapOpenApi();
+    app.MapScalarApiReference("/openapi");
 }
 
-// app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+app.MapEndpointsForCommands();
+app.MapEndpointsForQueries();
+app.Map("/*", () => Results.NotFound(new ApiResponse("NotFound")));
 
 app.Run();

@@ -11,18 +11,17 @@ public class HttpMapperTests
 {
     public class TestCommand : ICommand
     {
-        public string OrganisationId { get; set; }
-        public string Id { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
+        public string OrganisationId { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
     }
 
     public class TestCommandMap : HttpCommandMap<TestCommand>
     {
         public TestCommandMap()
         {
-            Classify("Context", "Test");
-            Classify("Resource", "TestResource");
+            Route("/test");
             FromHeader(x => x.OrganisationId, "X-Organisation-Id");
             FromPath(x => x.Id);
             FromBody(x => x.Code);
@@ -31,7 +30,7 @@ public class HttpMapperTests
     }
 
     [Fact]
-    public async void Can_map_commands()
+    public async Task Can_map_commands()
     {
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["X-Organisation-Id"] = "Org123";
@@ -58,23 +57,22 @@ public class HttpMapperTests
 
     public class TestQueryArgs : IQueryArgs
     {
-        public string OrganisationId { get; set; }
-        public string Query { get; set; }
+        public string OrganisationId { get; set; } = string.Empty;
+        public string Query { get; set; } = string.Empty;
     }
 
     public class TestQueryArgsMap : HttpQueryArgsMap<TestQueryArgs>
     {
         public TestQueryArgsMap()
         {
-            Classify("Context", "Test");
-            Classify("Resource", "TestResource");
+            Route("/test");
             FromHeader(x => x.OrganisationId, "X-Organisation-Id");
             FromQueryString(x => x.Query);
         }
     }
 
     [Fact]
-    public async void Can_map_query_args()
+    public async Task Can_map_query_args()
     {
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["X-Organisation-Id"] = "Org123";
