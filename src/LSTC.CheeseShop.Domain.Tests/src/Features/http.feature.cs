@@ -17,12 +17,14 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "Http")]
     public partial class HTTPTestingFeature : object, global::Xunit.IClassFixture<HTTPTestingFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "Http"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "src/Features", "HTTP testing", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
@@ -144,7 +146,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("basic", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 3
+#line 4
     this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -154,8 +156,8 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 4
-        await testRunner.GivenAsync("the base url http://localhost:5000", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 5
+        await testRunner.GivenAsync("the base url http://localhost:5555", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
                 global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "name",
@@ -163,16 +165,16 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
                 table1.AddRow(new string[] {
                             "foo",
                             "123"});
-#line 5
+#line 6
         await testRunner.AndAsync("the http headers", ((string)(null)), table1, "And ");
 #line hidden
-#line 9
+#line 10
         await testRunner.WhenAsync("I invoke POST /echo?x=1", "{\n    \"data\": \"value\"\n}", ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 15
+#line 16
         await testRunner.ThenAsync("compare response.IsSuccessStatusCode = true", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 16
+#line 17
         await testRunner.AndAsync("query result matches", "method = \"POST\"\nand path = \"/echo\"\nand $lookup(headers, \"foo\") = [\"123\"]\nand quer" +
                         "y[key=\"x\"].value", ((global::Reqnroll.Table)(null)), "And ");
 #line hidden

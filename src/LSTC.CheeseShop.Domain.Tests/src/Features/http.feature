@@ -1,7 +1,8 @@
+@Http
 Feature: HTTP testing
 
     Scenario: basic
-        Given the base url http://localhost:5000
+        Given the base url http://localhost:5555
         And the http headers
             | name | value |
             | foo  | 123   |

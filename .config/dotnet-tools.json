@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "dotnet-trx": {
+      "version": "1.0.1",
+      "commands": [
+        "trx"
+      ],
+      "rollForward": false
+    }
+  }
+}

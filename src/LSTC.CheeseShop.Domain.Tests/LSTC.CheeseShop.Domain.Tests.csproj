@@ -27,4 +27,10 @@
     <ProjectReference Include="..\LSTC.CheeseShop.Domain\LSTC.CheeseShop.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="reqnroll.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

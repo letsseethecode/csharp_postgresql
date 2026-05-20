@@ -5,8 +5,9 @@ ifndef VERBOSE
 .SILENT:
 endif
 
-SHELL := /bin/bash
-VERSION ?= latest
+SHELL		:= /bin/bash
+VERSION		?= latest
+VERBOSITY	?= verbose
 
 DOTNET_ROOT = $(shell dirname $$(asdf which dotnet))
 
@@ -44,19 +45,34 @@ test--clean:
 # Tests must be marked with [Trait("Category", "Unit")] in xUnit or @Unit in Specflow
 test--unit: test--clean															## Run the unit tests
 	$(call highlight,"test","unit tests complete")
-	echo ">> ${DOTNET_ROOT} <<"
-	dotnet test \
-		--logger trx \
-		--filter "Category=Unit"; \
-	trx --output --verbosity verbose --path ./src
+	dotnet test												\
+		--verbosity quiet									\
+		--logger trx										\
+		--filter "Category=Unit & Category!=Ignore";		\
+	dotnet trx												\
+		--verbosity ${VERBOSITY}							\
+		--path ./src
 
 # Tests that are not marked as Unit tests (above) will be treated as integration tests.
 test--integration: test--clean													## Run the integration tests
 	$(call highlight,"test","integration tests complete")
-	dotnet test \
-		--logger trx \
-		--filter "Category!=Unit"; \
-	trx --output --verbosity verbose --path ./src
+	dotnet test												\
+		--verbosity quiet									\
+		--logger trx										\
+		--filter "Category!=Unit & Category!=Ignore";		\
+	dotnet trx												\
+		--verbosity ${VERBOSITY}							\
+		--path ./src
+
+test--filter: test--clean															## Run the unit tests
+	$(call highlight,"test","unit tests complete")
+	dotnet test												\
+		--verbosity quiet									\
+		--logger trx										\
+		--filter "Category=${Category} & Category!=Ignore";	\
+	dotnet trx												\
+		--verbosity ${VERBOSITY}							\
+		--path ./src
 
 test: test--unit test--integration									## Run all the tests
 	$(call highlight,"test","complete")
