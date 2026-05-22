@@ -1,4 +1,4 @@
-@Http
+@Bdd @Http
 Feature: HTTP testing
 
     Scenario: basic

@@ -1,3 +1,4 @@
+using LSTC.Shared.CQS.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LSTC.Shared.CQS.Queries;

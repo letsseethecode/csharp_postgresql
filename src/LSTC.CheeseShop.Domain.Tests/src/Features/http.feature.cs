@@ -17,6 +17,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "Bdd")]
     [global::Xunit.TraitAttribute("Category", "Http")]
     public partial class HTTPTestingFeature : object, global::Xunit.IClassFixture<HTTPTestingFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
@@ -24,6 +25,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
+                "Bdd",
                 "Http"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "src/Features", "HTTP testing", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());

@@ -17,6 +17,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "Bdd")]
     [global::Xunit.TraitAttribute("Category", "Unit")]
     public partial class GenericResultsFeature : object, global::Xunit.IClassFixture<GenericResultsFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
@@ -24,6 +25,7 @@ namespace LSTC.CheeseShop.Domain.Tests.Src.Features
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
+                "Bdd",
                 "Unit"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "src/Features", "Generic Results", "  In order to provide a generic testing framework\n  As a developer\n  I want to se" +

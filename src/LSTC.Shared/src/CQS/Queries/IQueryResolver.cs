@@ -1,3 +1,5 @@
+using LSTC.Shared.CQS.Http;
+
 namespace LSTC.Shared.CQS.Queries;
 
 public interface IQueryResolver

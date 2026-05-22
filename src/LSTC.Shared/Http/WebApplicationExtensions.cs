@@ -2,63 +2,16 @@ using LSTC.Shared.CQS.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using System.Reflection;
-using LSTC.Shared.CQS.Http;
 using Microsoft.AspNetCore.Routing;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.OpenApi;
-using LSTC.Shared.Http;
-using System.Threading.Tasks;
+
+using LSTC.Shared.CQS.Http;
 using LSTC.Shared.CQS.Queries;
+using LSTC.Shared.Http;
 
 namespace Microsoft.AspNetCore.Builder;
 
 public static class EndpointRegistrationExtensions
   {
-    /// <summary>
-    /// Turns exceptions into IResult of ApiResponse with appropriate status
-    /// codes and error messages.
-    /// </summary>
-    /// <param name="action"></param>
-    /// <returns></returns>
-    private static async Task<IResult?> TrapErrors(Func<Task> action)
-    {
-        try
-        {
-            await action();
-            return null;
-        }
-        catch (Exception ex) when (ex is FormatException or ValidationException)
-        {
-            return Results.BadRequest(
-                new ApiResponse("Bad Request")
-                    .AddError(ex.Message, ex.StackTrace)
-            );
-        }
-        catch (AggregateException ex) when (ex.InnerExceptions.All(e => e is ValidationException))
-        {
-            var errors = ex.InnerExceptions
-                .Select(e => new ApiResponse.Error(e.Message, e.StackTrace))
-                .ToArray();
-            return Results.BadRequest(
-                new ApiResponse("Bad Request", errors)
-            );
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Results.UnprocessableEntity(
-                new ApiResponse("Unprocessable Entity")
-                    .AddError(ex.Message, ex.StackTrace)
-            );
-        }
-        catch (Exception ex)
-        {
-            return Results.InternalServerError(
-                new ApiResponse("Internal Server Error")
-                    .AddError(ex.Message, ex.StackTrace)
-            );
-        }
-    }
-
     private static void MapCommandEndpoint<TCommand>(
         HttpCommandMap<TCommand> map,
         ICommandHandler<TCommand> handler,
@@ -67,7 +20,7 @@ public static class EndpointRegistrationExtensions
     {
         app.MapPost(map.Path, async (HttpContext context) =>
         {
-            return await TrapErrors(async () =>
+            return await Response.TrapErrors(async () =>
             {
                 var command = await map.CreateAsync(context.Request, context.GetRouteData().Values);
                 await handler.ExecuteAsync(command);
@@ -116,7 +69,7 @@ public static class EndpointRegistrationExtensions
         app.MapGet(map.Path, async (HttpContext context) =>
         {
             TQueryResults? result = default;
-            return await TrapErrors(async () =>
+            return await Response.TrapErrors(async () =>
             {
                 var args = await map.CreateAsync(context.Request, context.GetRouteData().Values);
                 result = await handler.ExecuteAsync(args);

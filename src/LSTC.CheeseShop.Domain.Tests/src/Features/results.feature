@@ -1,4 +1,4 @@
-@Unit
+@Bdd @Unit
 Feature: Generic Results
   In order to provide a generic testing framework
   As a developer
